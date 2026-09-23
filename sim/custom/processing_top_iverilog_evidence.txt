@@ -1,0 +1,101 @@
+Simulator: Icarus Verilog
+Version:
+Icarus Verilog version 12.0 (devel) (s20150603-1539-g2693dd32b)
+
+Copyright (c) 2000-2021 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+Icarus Verilog Preprocessor version 12.0 (devel) (s20150603-1539-g2693dd32b)
+
+Copyright (c) 1999-2021 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+Icarus Verilog Parser/Elaborator version 12.0 (devel) (s20150603-1539-g2693dd32b)
+
+Copyright (c) 1998-2021 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+ FLAGS DLL vvp.tgt
+vvp.tgt: Icarus Verilog VVP Code Generator 12.0 (devel) (s20150603-1539-g2693dd32b)
+
+Copyright (c) 2001-2021 Stephen Williams (steve@icarus.com)
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+Configuration: default_1280x720 Compile command: & "D:\iverilog\bin\iverilog.exe" "-g2005" "-Wall" "-s" "tb_custom_processing_top" "-Ptb_custom_processing_top.IMG_WIDTH=1280" "-Ptb_custom_processing_top.IMG_HEIGHT=720" "-o" "D:\FPGA\HX1P35A_Image\sim\custom\.tmp_processing_top_iverilog\default_1280x720.vvp" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_rgb_to_gray.v" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_gray_threshold.v" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_sobel_4px.v" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_processing_top.v" "D:\FPGA\HX1P35A_Image\sim\custom\tb_custom_processing_top.v"
+Compile exit status: 0 Compile output:
+warning: Some modules have no timescale. This may cause
+       : confusing timing results.	Affected modules are:
+       :   -- module custom_gray_threshold declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_gray_threshold.v:2
+       :   -- module custom_processing_top declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_processing_top.v:4
+       :   -- module custom_rgb_to_gray declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_rgb_to_gray.v:3
+       :   -- module custom_sobel_4px declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_sobel_4px.v:7
+Run command: & "D:\iverilog\bin\vvp.exe" "D:\FPGA\HX1P35A_Image\sim\custom\.tmp_processing_top_iverilog\default_1280x720.vvp"
+Run exit status: 0 Run output:
+PASS: processing top width=1280 rows=6 valid=19201 markers=19262 sof=11 eol=60 reset=4 hardcoded=4 errors=0
+D:\FPGA\HX1P35A_Image\sim\custom\tb_custom_processing_top.v:317: $finish called at 192687000 (1ps)
+PASS: True
+Configuration: small_16x6 Compile command: & "D:\iverilog\bin\iverilog.exe" "-g2005" "-Wall" "-s" "tb_custom_processing_top" "-Ptb_custom_processing_top.IMG_WIDTH=16" "-Ptb_custom_processing_top.IMG_HEIGHT=6" "-o" "D:\FPGA\HX1P35A_Image\sim\custom\.tmp_processing_top_iverilog\small_16x6.vvp" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_rgb_to_gray.v" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_gray_threshold.v" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_sobel_4px.v" "D:\FPGA\HX1P35A_Image\rtl\custom\custom_processing_top.v" "D:\FPGA\HX1P35A_Image\sim\custom\tb_custom_processing_top.v"
+Compile exit status: 0 Compile output:
+warning: Some modules have no timescale. This may cause
+       : confusing timing results.	Affected modules are:
+       :   -- module custom_gray_threshold declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_gray_threshold.v:2
+       :   -- module custom_processing_top declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_processing_top.v:4
+       :   -- module custom_rgb_to_gray declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_rgb_to_gray.v:3
+       :   -- module custom_sobel_4px declared here: D:\FPGA\HX1P35A_Image\rtl\custom\custom_sobel_4px.v:7
+Run command: & "D:\iverilog\bin\vvp.exe" "D:\FPGA\HX1P35A_Image\sim\custom\.tmp_processing_top_iverilog\small_16x6.vvp"
+Run exit status: 0 Run output:
+PASS: processing top width=16 rows=6 valid=241 markers=302 sof=11 eol=60 reset=4 hardcoded=10 errors=0
+D:\FPGA\HX1P35A_Image\sim\custom\tb_custom_processing_top.v:317: $finish called at 3087000 (1ps)
+PASS: True

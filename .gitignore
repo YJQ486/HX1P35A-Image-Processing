@@ -1,0 +1,85 @@
+# Public source scope: the local official baseline and third-party material stay on disk.
+/vendor/
+/project/
+/docs/reference/
+/github_ready/
+
+# Tang Dynasty runs, implementation products, programming images, and reports.
+**/*_Runs/
+**/best_result/
+*.bit
+*.bin
+*.jed
+*.jic
+*.pof
+*.sof
+*.svf
+*.db
+*.ipc
+*.bid
+*.area
+*.qor
+*.timing
+*.ts
+*.status
+*.rpt
+*_gate_netlist.v
+*_rtl_netlist.v
+*_elaborate_netlist.v
+/qa/**/baseline_before_eram/
+/qa/**/.*.begin.f
+/qa/**/.*.end.f
+/qa/**/.*.error.f
+
+# Temporary output, logs, waveform files, and simulator databases.
+/tmp/
+**/tmp/
+**/.tmp_*/
+*.tmp
+*.temp
+*.bak
+*.log
+*.logw
+*.vvp
+*.vcd
+*.fst
+*.wlf
+*.ghw
+*.vpd
+*.fsdb
+**/work/
+**/VSOUT/
+**/transcript
+**/modelsim.ini
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Vendor device libraries, licenses, credentials, and machine-local settings.
+*.lic
+*.license
+*.key
+*.pem
+*.p12
+*.pfx
+*.cfg
+!qa/**/settings.cfg
+*.suo
+*.user
+.env
+.env.*
+.vscode/
+.idea/
+
+# Supplied or generated reference documents and archives.
+*.pdf
+*.ppt
+*.pptx
+*.doc
+*.docx
+*.zip
+*.7z
+*.rar
+
+# Intentionally retained: rtl/custom/, sim/custom/, docs/*.md,
+# qa/**/{*.v,*.prj,*.sdc,*.tcl,*.ps1,settings.cfg,*evidence.txt}.

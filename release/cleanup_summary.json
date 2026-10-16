@@ -1,0 +1,431 @@
+{
+  "original_head": "f4b0fbfb7e668ac975dd944ae9be4a7282fef80e",
+  "backup_branch": "codex/backup-pre-cleanup-20261016",
+  "backup_tag": "backup-pre-cleanup-20261016",
+  "backup_commit": "9cf21e4c70f165492f0b120f835348c979ce1f2a",
+  "backup": "qa/_local_backups/pre_cleanup_20261016",
+  "backup_stats": {
+    "files": 46979,
+    "bytes": 43189259587,
+    "head": "f4b0fbfb7e668ac975dd944ae9be4a7282fef80e",
+    "staged": [
+      "docs/SC520CS_LINK_SIM_REPORT.md",
+      "sim/custom/run_sc520cs_link_iverilog.ps1",
+      "sim/custom/sc520cs_link_iverilog_evidence.txt",
+      "sim/custom/tb_sc520cs_processing_link.v"
+    ],
+    "verified": "source and destination SHA256",
+    "time": "2026-10-16T23:47:49.817769"
+  },
+  "archive": "qa/_local_archive/pre_cleanup_20261016",
+  "pending_staged_files": [
+    "docs/SC520CS_LINK_SIM_REPORT.md",
+    "sim/custom/run_sc520cs_link_iverilog.ps1",
+    "sim/custom/sc520cs_link_iverilog_evidence.txt",
+    "sim/custom/tb_sc520cs_processing_link.v"
+  ],
+  "pending_policy": "Excluded from cleanup commit; exact original stage blobs restored after commit",
+  "public_files": [
+    ".gitattributes",
+    ".gitignore",
+    "README.md",
+    "docs/BOARD_VALIDATION.md",
+    "docs/CLEANUP_AND_RECOVERY.md",
+    "docs/CURRENT_BUILD.md",
+    "docs/DEPENDENCIES.md",
+    "docs/PROJECT_ANALYSIS.md",
+    "docs/QA_REPORT.md",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_ae_frame_stats.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_ae_overlay.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_awb_sof_aligner.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_closed_loop_ae.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_csi_sof_events.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_diag_overlay.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_diag_snapshot_cdc.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_frame_awb.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_gray_threshold.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_key_mode_request.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_processing_top.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_rgb_to_gray.v",
+    "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_sobel_4px.v",
+    "qa/sc520cs_frame_awb_trial_20261016/tb_ae_stats.v",
+    "qa/sc520cs_frame_awb_trial_20261016/tb_awb_key_gesture.v",
+    "qa/sc520cs_frame_awb_trial_20261016/tb_awb_status_cdc.v",
+    "qa/sc520cs_frame_awb_trial_20261016/tb_closed_loop_ae.v",
+    "qa/sc520cs_frame_awb_trial_20261016/tb_frame_awb.v",
+    "release/active_sources.csv",
+    "release/cleanup_summary.json",
+    "release/current.json",
+    "release/dependencies.csv",
+    "release/historical_audit_excerpt.txt",
+    "release/historical_test_summary.csv",
+    "release/retired_paths.csv",
+    "release/validation.json",
+    "scripts/test_current.py",
+    "scripts/verify_current.py",
+    "sim/custom/tb_custom_processing_top.v"
+  ],
+  "retired_tracked_files": 26,
+  "moved_files": [
+    {
+      "source": "docs/BASELINE_BOARD_READINESS.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/BASELINE_BOARD_READINESS.md",
+      "sha256": "D02F8B55F3809F6B3F19099ECCAA3BDB9DF855D88D0345821726E11CD8437A3E"
+    },
+    {
+      "source": "docs/BASELINE_BUILD_CHECKLIST.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/BASELINE_BUILD_CHECKLIST.md",
+      "sha256": "FBCC03BB0F17F046C8FC77182C916203F4579B17C335A1D57C6819D5CB6B1A9B"
+    },
+    {
+      "source": "docs/BASELINE_BUILD_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/BASELINE_BUILD_REPORT.md",
+      "sha256": "BF1DD5CE3398ED9186820BC2BDA6B6E80D3241DDD87F298CE4B3B4B3501B5D79"
+    },
+    {
+      "source": "docs/BUILD_PREFLIGHT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/BUILD_PREFLIGHT.md",
+      "sha256": "C74DC8215AAC82EBED1127A7A36C1A500FDC8678DCB42A2EB8FE3712D9452252"
+    },
+    {
+      "source": "docs/CUSTOM_PROCESSING_TOP_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/CUSTOM_PROCESSING_TOP_REPORT.md",
+      "sha256": "5454224EEAD263A4AE67E5C2DC49D5D75CDDE6A520F1732AEFD6741267990AFA"
+    },
+    {
+      "source": "docs/CUSTOM_RTL_PLAN.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/CUSTOM_RTL_PLAN.md",
+      "sha256": "90038660CA830724F5273B06417AEDA5AABB5BAD4589A9A44E0963D399D2EE8F"
+    },
+    {
+      "source": "docs/CUSTOM_SOBEL_SYNTH_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/CUSTOM_SOBEL_SYNTH_REPORT.md",
+      "sha256": "2357565ADD10522625A10A754351F851DD40A9807464C0767F8411F7D6BFADA0"
+    },
+    {
+      "source": "docs/LAB_EX1_INTEGRATION_PREP.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/LAB_EX1_INTEGRATION_PREP.md",
+      "sha256": "83295D009EE07090A8B959630DB499EA8C7760200717B11372F7E110EB67F0F6"
+    },
+    {
+      "source": "docs/OFFICIAL_DOC_INDEX.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/OFFICIAL_DOC_INDEX.md",
+      "sha256": "D0C2C04FA2068CBA0E750433F037436B5388BB4668E05486113CDA1F04898225"
+    },
+    {
+      "source": "docs/SC520CS_AE_GAIN_READBACK_AUDIT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_AE_GAIN_READBACK_AUDIT.md",
+      "sha256": "739021111F2E0E7A1E200C197AC24F3E8C5F87B11032301975C32D647D171997"
+    },
+    {
+      "source": "docs/SC520CS_AE_HIGHCONTRAST_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_AE_HIGHCONTRAST_REPORT.md",
+      "sha256": "C7F0CB2564C81742F1A7CF5EAF0ACB80595622CBAD9C94D9AD58B5265EEB4312"
+    },
+    {
+      "source": "docs/SC520CS_AE_NACK_DEBUG_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_AE_NACK_DEBUG_REPORT.md",
+      "sha256": "6CC3695FA6346E4FFBE70FEEA3E20B6EB137B6213E4E5C9D96682A8B597B0B23"
+    },
+    {
+      "source": "docs/SC520CS_AE_OBSERVATION_CANDIDATE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_AE_OBSERVATION_CANDIDATE_REPORT.md",
+      "sha256": "24FFDB3C873054E3F4B5FCE9F3F1BE4B72410A2752507C0B2E9232A13EC324F5"
+    },
+    {
+      "source": "docs/SC520CS_AWB_AB_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_AWB_AB_QA_REPORT.md",
+      "sha256": "F43929F974A6431FBD4C0F640DA5B7612A3700B094427A487ABA4180C0E2C639"
+    },
+    {
+      "source": "docs/SC520CS_CDC_ENTRY_STRUCTURE_REVIEW.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_CDC_ENTRY_STRUCTURE_REVIEW.md",
+      "sha256": "B8C6D0173D7375829F259B65319045F80D2374E3DF5BA3017C7F9C0D3CF05E78"
+    },
+    {
+      "source": "docs/SC520CS_CFG_DONE_CDC_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_CFG_DONE_CDC_QA_REPORT.md",
+      "sha256": "B29B11834FD958B6FF4DD4E813E3374D9772FEFE963F41F412E19481CFF83970"
+    },
+    {
+      "source": "docs/SC520CS_CLOSED_LOOP_AE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_CLOSED_LOOP_AE_REPORT.md",
+      "sha256": "1CE4B9171B3D336838FA20D8349240695F1046BABEE35289A0512182EA724D5F"
+    },
+    {
+      "source": "docs/SC520CS_CONNECTION_DOC_AUDIT_20261008.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_CONNECTION_DOC_AUDIT_20261008.md",
+      "sha256": "484BAEFE586677A1F4644592F375153237450DD22065A2694C536E2194FB1FAD"
+    },
+    {
+      "source": "docs/SC520CS_CONVERTER_RESET_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_CONVERTER_RESET_REPORT.md",
+      "sha256": "74C4A407649ED6F0B6C766602022BD6D40DE8C4C269209D906C99EAC3382E00D"
+    },
+    {
+      "source": "docs/SC520CS_DDR_100MHZ_GUI_AUDIT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_100MHZ_GUI_AUDIT.md",
+      "sha256": "0A95AE9647D783AB9F0867CCBC9E63F1A2357F999928630EB8F9B460C8116EBF"
+    },
+    {
+      "source": "docs/SC520CS_DDR_INTERNAL_100MHZ_QA_TRIAL.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_INTERNAL_100MHZ_QA_TRIAL.md",
+      "sha256": "0DAC1AFCA509BEAB1216B5870B075F6A3A4BB11EF0DE708511C5417A14329D6F"
+    },
+    {
+      "source": "docs/SC520CS_DDR_PLL1_RESET_RELEASE_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_PLL1_RESET_RELEASE_QA_REPORT.md",
+      "sha256": "EBB0623E5D141EF4552962788C39690ED70BAE921759CA2B8ED15B7FE39086DF"
+    },
+    {
+      "source": "docs/SC520CS_DDR_QA_CDC_FUNCTIONAL_TRIAL.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_QA_CDC_FUNCTIONAL_TRIAL.md",
+      "sha256": "F390A2FA83593E69B20AE421FBE2519F0BC49755914D3E3475435765670C4D96"
+    },
+    {
+      "source": "docs/SC520CS_DDR_QA_EVENT_RELEASE_TRIAL.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_QA_EVENT_RELEASE_TRIAL.md",
+      "sha256": "78D01BEDAA00F6210BD5817F37487D45A1FD9084ED20B980DDE5131A552CEBEF"
+    },
+    {
+      "source": "docs/SC520CS_DDR_READY_ENTRY_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_READY_ENTRY_QA_REPORT.md",
+      "sha256": "2BD5E365CA2E0070B3E115D00706C8F4401441BABBF9E674588685D314D7133F"
+    },
+    {
+      "source": "docs/SC520CS_DDR_REFCLK_AUDIT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_REFCLK_AUDIT.md",
+      "sha256": "7379B8DFF61AFB71818C92980DDC78163B8CB51B45B49CE6E657895A66B4DE7C"
+    },
+    {
+      "source": "docs/SC520CS_DDR_REFCLK_REPAIR_PLAN.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_DDR_REFCLK_REPAIR_PLAN.md",
+      "sha256": "B3E919178C4D0588B25B1B28C3AFCFEFE1E740DEB3B1752E89F9C8D6BAFD4008"
+    },
+    {
+      "source": "docs/SC520CS_FIFO_CDC_AUDIT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FIFO_CDC_AUDIT.md",
+      "sha256": "33ED7CB1726ED1977D09E83BDD66D2E01169EB365FBD25BFEE903FA0AB227AC4"
+    },
+    {
+      "source": "docs/SC520CS_FIFO_CDC_CONSTRAINT_TRIAL.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FIFO_CDC_CONSTRAINT_TRIAL.md",
+      "sha256": "DEF2A8F32DA46A3AC9DCE43F5AA73226F0615C1D2B0EDA018984AC0AF41DD049"
+    },
+    {
+      "source": "docs/SC520CS_FIFO_RESET_FULL_SYNTH_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FIFO_RESET_FULL_SYNTH_REPORT.md",
+      "sha256": "DBCF97C7B59F14622E10C0EE4106A4BF81738F6320301E6E57797ADC8D8A0310"
+    },
+    {
+      "source": "docs/SC520CS_FIFO_RESET_RELEASE_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FIFO_RESET_RELEASE_QA_REPORT.md",
+      "sha256": "9ED4CF84CE187E786A08E2FF02A09F4E94509FE78DF26DF9B33AE530199BB8A0"
+    },
+    {
+      "source": "docs/SC520CS_FIRST_BOARD_FOUR_MODE_CANDIDATE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FIRST_BOARD_FOUR_MODE_CANDIDATE_REPORT.md",
+      "sha256": "3CBB22913F3B89C29678B19DEB905E987B79A2E93A0F8D988107B6D2AB159D64"
+    },
+    {
+      "source": "docs/SC520CS_FIRST_BOARD_GRAY_CANDIDATE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FIRST_BOARD_GRAY_CANDIDATE_REPORT.md",
+      "sha256": "519582B2D729AC2BC32D5165A324760808E7E122C7C9DB1E404B673109815E1A"
+    },
+    {
+      "source": "docs/SC520CS_FOUR_MODE_KEY_INTERFACE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FOUR_MODE_KEY_INTERFACE_REPORT.md",
+      "sha256": "1E11C6A05B92A57E94E66B7CAB994F842A460882140BC6A2940A8981FDDCE9BB"
+    },
+    {
+      "source": "docs/SC520CS_FOUR_MODE_QA_INTEGRATION_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FOUR_MODE_QA_INTEGRATION_REPORT.md",
+      "sha256": "75547E2FADC5D7D01D1213F6AAE6B3715121A575DEE987A84F281F10C5541C4E"
+    },
+    {
+      "source": "docs/SC520CS_FOUR_MODE_SETUP_AUDIT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FOUR_MODE_SETUP_AUDIT.md",
+      "sha256": "4303080239CE12EB44E099AA92A9DEF131B1E9B4052F8AD944CAE751A54C2045"
+    },
+    {
+      "source": "docs/SC520CS_FRAME_AWB_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FRAME_AWB_QA_REPORT.md",
+      "sha256": "1E1538B9139B08E2F0C2CFEB461FCC6E822ECD7D2AE8901F2A7DE3286FDC0331"
+    },
+    {
+      "source": "docs/SC520CS_FULL_SYNTH_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_FULL_SYNTH_REPORT.md",
+      "sha256": "EA1AFAC2D559F9DBF8558BEBB30DBE7E4C300E407E60250968AFB279A085F8E9"
+    },
+    {
+      "source": "docs/SC520CS_I2C_CLOCK_RESET_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_I2C_CLOCK_RESET_QA_REPORT.md",
+      "sha256": "11A2FC6BC9FFF1F61C0AA26402C79BC1E28A4A3F35184A7BEFC0DE6089ACAF29"
+    },
+    {
+      "source": "docs/SC520CS_I2C_NACK_POLICY_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_I2C_NACK_POLICY_QA_REPORT.md",
+      "sha256": "4AE2A29B4CE63774294AA680BF6A7C6F151AB94F328622CA73E1945D73B76E37"
+    },
+    {
+      "source": "docs/SC520CS_I2C_PROTOCOL_TIMING_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_I2C_PROTOCOL_TIMING_REPORT.md",
+      "sha256": "7AA21FBF7639397A73DEA1C9AE36B05EC963353018FC5B7F9A997331E2FA81BB"
+    },
+    {
+      "source": "docs/SC520CS_IMAGE_QUALITY_DEBUG_CANDIDATE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_IMAGE_QUALITY_DEBUG_CANDIDATE_REPORT.md",
+      "sha256": "1CA6103F1DF82DDD790926B71D3CBC82F494F3A6F3C82575EB2E9CC9990B092A"
+    },
+    {
+      "source": "docs/SC520CS_IMAGE_QUALITY_DIAGNOSIS.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_IMAGE_QUALITY_DIAGNOSIS.md",
+      "sha256": "F9F9D621EF9C37A7DD85E1947597546CF512706977BA464BD98FED1F900BBDBF"
+    },
+    {
+      "source": "docs/SC520CS_INDOOR_AE_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_INDOOR_AE_REPORT.md",
+      "sha256": "BD51544AFDEA732E833F8C31EA2F0D16CAAA89D7F9095622F600F98A404FE19F"
+    },
+    {
+      "source": "docs/SC520CS_INTERNAL_100MHZ_CLOCK_CDC_AUDIT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_INTERNAL_100MHZ_CLOCK_CDC_AUDIT.md",
+      "sha256": "C63EA15950B133518417EEB79046C7065650AAEF7D5E5829BDB5760B64775A0E"
+    },
+    {
+      "source": "docs/SC520CS_ISP_INTEGRATION_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_ISP_INTEGRATION_REPORT.md",
+      "sha256": "19D58220766CF1AEBCD2F9C1C98EBA9051089A65A50496DF5C56D9AC539434F3"
+    },
+    {
+      "source": "docs/SC520CS_MIGRATION_ASSESSMENT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_MIGRATION_ASSESSMENT.md",
+      "sha256": "3F0492704D3864AF78BFBBBE9467081BA7FF90278EF9B88F7751D6893BA6E4B9"
+    },
+    {
+      "source": "docs/SC520CS_OFFICIAL_BOARD_BASELINE_BUILD_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_OFFICIAL_BOARD_BASELINE_BUILD_REPORT.md",
+      "sha256": "083EED17770FA91C6D9CB641D5B99BC1CDB3C4C9A695A39CA40B71D487A93DD8"
+    },
+    {
+      "source": "docs/SC520CS_SOBEL_FULL_FRAME_QA.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_SOBEL_FULL_FRAME_QA.md",
+      "sha256": "FCBAFCE7C290EFAC9E04A5B3404A318BC0DD0147C13155E10708EB726B85B911"
+    },
+    {
+      "source": "docs/SC520CS_SOBEL_PARALLEL_SUM_EXPERIMENT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_SOBEL_PARALLEL_SUM_EXPERIMENT.md",
+      "sha256": "62FB007131896CC545BA6B871160BB9A3C09B074BACC68D2F5F66EA4D263C9E4"
+    },
+    {
+      "source": "docs/SC520CS_SOF_ALIGNMENT_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_SOF_ALIGNMENT_REPORT.md",
+      "sha256": "7D07950C9CE067499E2A7E7C15CE238F7F0AE1085F100A8CC8C1D8D518103E9A"
+    },
+    {
+      "source": "docs/SC520CS_SYNTH_TIMING_OPTIMIZATION.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_SYNTH_TIMING_OPTIMIZATION.md",
+      "sha256": "7A4FC481B1657B8A3F0BDF62074C2A8A71D7AF5D7E3B1A717B006D23A1B071E4"
+    },
+    {
+      "source": "docs/SC520CS_USER_RESET_RELEASE_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_USER_RESET_RELEASE_QA_REPORT.md",
+      "sha256": "730253960B99916E9B40331883DF9A2FFA58F97E2E32F10C0AF131F353E272BC"
+    },
+    {
+      "source": "docs/SC520CS_VIDEO_CDC_EVENT_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_VIDEO_CDC_EVENT_REPORT.md",
+      "sha256": "DFEFF984AB56B739C2FFABA341D57507C44455D0323E01417B01DB6B6C795A51"
+    },
+    {
+      "source": "docs/SC520CS_VSYNC_CDC_QA_REPORT.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/SC520CS_VSYNC_CDC_QA_REPORT.md",
+      "sha256": "557D93241863B9DF2985BF5A7DEB4323A15682C312C90221FE3784DA93843425"
+    },
+    {
+      "source": "docs/VIDEO_PIPELINE_INTERFACE.md",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/docs/VIDEO_PIPELINE_INTERFACE.md",
+      "sha256": "0515CCBF58743432D407D5962A6A99672A1C37989DFD707FD4913F1116F04042"
+    },
+    {
+      "source": "td_20260921_142352.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260921_142352.log",
+      "sha256": "A790DB12E6DA21CF45CD88198C5F7C167E3B317F686B22F75C1554849BC073DF"
+    },
+    {
+      "source": "td_20260921_142352.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260921_142352.logw",
+      "sha256": "93170511C83BCBF99585BE1B1421273E82F43FCC94DD6A09B09C38C4241DA96A"
+    },
+    {
+      "source": "td_20260921_142424.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260921_142424.log",
+      "sha256": "6A9246CE66656DD819AE2C5B8F5CF7A191A7C89920D1FACA454D3EE749E32D88"
+    },
+    {
+      "source": "td_20260921_142424.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260921_142424.logw",
+      "sha256": "7036BC121CB901B205762C1D84DE492EDBB1A7E1C77A51F496795736B67EAB49"
+    },
+    {
+      "source": "td_20260921_142432.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260921_142432.log",
+      "sha256": "50189955AF29EED0CC5E45745F481C491946A6E5E5F0553FE06948E0994E8C26"
+    },
+    {
+      "source": "td_20260921_142432.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260921_142432.logw",
+      "sha256": "633D1C9A3A98E3D86E803E07AF0AD41602BAFF6031302C059247CAB3C93FCA19"
+    },
+    {
+      "source": "td_20260923_221404.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221404.log",
+      "sha256": "DDE03C5F5F2303AD239C4B44AE10D976854E4304C2FCD4DB4104BDAC5B930065"
+    },
+    {
+      "source": "td_20260923_221404.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221404.logw",
+      "sha256": "255016F990A4541ED79B17E5E1C5AB8ED174A5164C73D1EDD524E899B2598D37"
+    },
+    {
+      "source": "td_20260923_221415.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221415.log",
+      "sha256": "4807F95349B81371BB83F4B6857367EF12A4570CAD49AF3A5B519D07321A3C71"
+    },
+    {
+      "source": "td_20260923_221415.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221415.logw",
+      "sha256": "4807F95349B81371BB83F4B6857367EF12A4570CAD49AF3A5B519D07321A3C71"
+    },
+    {
+      "source": "td_20260923_221427.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221427.log",
+      "sha256": "D898290939A5208942418D5E17F997BE192DBFF4916833FE44FEE843FBC3B56B"
+    },
+    {
+      "source": "td_20260923_221427.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221427.logw",
+      "sha256": "46D89DCAC0604672AA63CBFB7FFDC27E60CE6C8DC266AB4C79FE9AD615A8B57C"
+    },
+    {
+      "source": "td_20260923_221541.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221541.log",
+      "sha256": "85110233F38F838470C969B60B9CC4C3663CE8FE829951A00BFCC3D40663AE82"
+    },
+    {
+      "source": "td_20260923_221541.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20260923_221541.logw",
+      "sha256": "6095D083DB860444629C6D1947B03D72A05750376D587F5BC5D16E83AE12234A"
+    },
+    {
+      "source": "td_20261007_110941.log",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20261007_110941.log",
+      "sha256": "0DF7530E0E37023AB63B6B9A44C97741A6195E0AF0BC4B31305E55E8C8212B18"
+    },
+    {
+      "source": "td_20261007_110941.logw",
+      "archive": "qa/_local_archive/pre_cleanup_20261016/root_logs/td_20261007_110941.logw",
+      "sha256": "F35EAF95CA282BF5E3FC774FB35C3159EB2180293F0C856789CE90F26233AB0E"
+    }
+  ]
+}

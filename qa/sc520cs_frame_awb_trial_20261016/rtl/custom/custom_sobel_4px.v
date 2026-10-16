@@ -4,7 +4,11 @@
 // the current input.  Output words therefore contain a one-row/one-pixel
 // spatial shift.  Synchronous ERAM reads add a second registered stream stage;
 // data and every stream marker therefore have two clocks of latency.
+`ifdef SOBEL_COMPARE
+module custom_sobel_4px_parallel #(
+`else
 module custom_sobel_4px #(
+`endif
     parameter IMG_WIDTH  = 1280,
     parameter IMG_HEIGHT = 720
 )(
@@ -113,15 +117,23 @@ module custom_sobel_4px #(
         input [7:0] a22;
         reg signed [12:0] gx;
         reg signed [12:0] gy;
+        // Each weighted side is in [0, 1020].  Calculate independent sides
+        // concurrently, then subtract; keep the original signed/absolute/
+        // saturation widths and the existing two-stage stream registers.
+        reg [9:0] gx_right;
+        reg [9:0] gx_left;
+        reg [9:0] gy_top;
+        reg [9:0] gy_bottom;
         reg [12:0] abs_gx;
         reg [12:0] abs_gy;
         reg [13:0] magnitude;
         begin
-            gx = -$signed({5'd0,a00}) + $signed({5'd0,a02})
-                 - ($signed({5'd0,a10}) <<< 1) + ($signed({5'd0,a12}) <<< 1)
-                 - $signed({5'd0,a20}) + $signed({5'd0,a22});
-            gy =  $signed({5'd0,a00}) + ($signed({5'd0,a01}) <<< 1) + $signed({5'd0,a02})
-                 - $signed({5'd0,a20}) - ($signed({5'd0,a21}) <<< 1) - $signed({5'd0,a22});
+            gx_right = ({2'd0,a02} + {2'd0,a22}) + {1'b0,a12,1'b0};
+            gx_left  = ({2'd0,a00} + {2'd0,a20}) + {1'b0,a10,1'b0};
+            gy_top   = ({2'd0,a00} + {2'd0,a02}) + {1'b0,a01,1'b0};
+            gy_bottom= ({2'd0,a20} + {2'd0,a22}) + {1'b0,a21,1'b0};
+            gx = $signed({3'd0,gx_right}) - $signed({3'd0,gx_left});
+            gy = $signed({3'd0,gy_top}) - $signed({3'd0,gy_bottom});
             abs_gx = gx[12] ? (~gx + 13'd1) : gx;
             abs_gy = gy[12] ? (~gy + 13'd1) : gy;
             magnitude = abs_gx + abs_gy;

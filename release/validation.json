@@ -1,0 +1,330 @@
+{
+  "date": "2026-10-16 Asia/Shanghai",
+  "current_source_tests": [
+    {
+      "case": "frame_awb_small",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT FRAME_AWB W=32 H=4 frames=121 pixels=15488 checks=7987 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_frame_awb.v",
+          "sha256": "AA0CC00E17671A0C9E74EFFD9B2D42E85624ED413A79C87FAF83AD6E8CA26284"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_frame_awb.v",
+          "sha256": "9A452651608C03D4AD63218A930388749206C5C9FE3EE40C5A9ED7E03E1C7F8D"
+        }
+      ]
+    },
+    {
+      "case": "awb_key",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT AWB_KEY checks=18 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_awb_key_gesture.v",
+          "sha256": "CC5DA1BD8271CC11D6AE88F5D504B00D051EE0D584926005367F0BB8F6D377DB"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_key_mode_request.v",
+          "sha256": "8C9583BAFA6DF296374C39678280F73A4C71702F60F6252BBAD8AAD2E9EFA065"
+        }
+      ]
+    },
+    {
+      "case": "awb_status",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT AWB_STATUS checks=206 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_awb_status_cdc.v",
+          "sha256": "58BBAD32BF56D8987E8D7EDDFCFA5A5F94C6BB20184D2EADF5CFA5B199547F9C"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_diag_snapshot_cdc.v",
+          "sha256": "796511F823A194FC430CF6FE61A1B7A6266D71A06B0D9BC4C08C44CA023378C0"
+        }
+      ]
+    },
+    {
+      "case": "closed_ae",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT CLOSED_AE checks=418 errors=0 requests=37"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_closed_loop_ae.v",
+          "sha256": "8488C3C0711E5A983ED3AE2D939BCDC9627167204385C35E855C6CA36A4EC565"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_ae_frame_stats.v",
+          "sha256": "359AE453603518B0A3F38639FE7B3AF4F67D17B4DC4E8125A52A0A2554E18CDD"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_closed_loop_ae.v",
+          "sha256": "19B79185F22822A81F2B8EA1BC13C13B8F141A962763199FE873BD7B60D37410"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_diag_snapshot_cdc.v",
+          "sha256": "796511F823A194FC430CF6FE61A1B7A6266D71A06B0D9BC4C08C44CA023378C0"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_csi_sof_events.v",
+          "sha256": "3315CE0C8CDAB6E67D842B653AD3D9460473E938033AF9A0399DA5A2BC80061E"
+        }
+      ]
+    },
+    {
+      "case": "ae_stats",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT AE_STATS 16x4 checks=9 errors=0 total=8128"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_ae_stats.v",
+          "sha256": "DA2EDE2F707C65EA5761BEC0F9B607EF2995BDBDAEAA0E73B3E404D6A893348A"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_ae_frame_stats.v",
+          "sha256": "359AE453603518B0A3F38639FE7B3AF4F67D17B4DC4E8125A52A0A2554E18CDD"
+        }
+      ]
+    },
+    {
+      "case": "four_modes",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "PASS: processing top width=1280 rows=6 valid=19201 markers=19262 sof=11 eol=60 reset=4 hardcoded=4 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "sim/custom/tb_custom_processing_top.v",
+          "sha256": "22124222A3B9B048971437D85830FA046034095E2C796FB484CC3135206AA32E"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_processing_top.v",
+          "sha256": "356378D0430DCD9DB3AF961D72E7A3E43236DEFB754093C9C8E2FDC6E1A3F2B2"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_gray_threshold.v",
+          "sha256": "775C56A4DA935AFABC68AA9C113504EFC4A72750623F26260FBE58C605181FAE"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_rgb_to_gray.v",
+          "sha256": "BA79D03B7F139044E114899793C70DA51D74AADDFA3370103FE5D6D74B6162DD"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_sobel_4px.v",
+          "sha256": "AFCC1CD67B7525C11EFC321626115534F3DE82DF827DE240BB7E22B655A6BCD5"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_awb_sof_aligner.v",
+          "sha256": "567CFC61CF7127C9A439238453927DEB298D9EDA4FF0D0FC68A1E9E64F668940"
+        }
+      ]
+    },
+    {
+      "case": "frame_awb_full",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT FRAME_AWB W=1280 H=720 frames=19 pixels=17510400 checks=8755237 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_frame_awb.v",
+          "sha256": "AA0CC00E17671A0C9E74EFFD9B2D42E85624ED413A79C87FAF83AD6E8CA26284"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_frame_awb.v",
+          "sha256": "9A452651608C03D4AD63218A930388749206C5C9FE3EE40C5A9ED7E03E1C7F8D"
+        }
+      ]
+    }
+  ],
+  "public_export_tests": [
+    {
+      "case": "frame_awb_small",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT FRAME_AWB W=32 H=4 frames=121 pixels=15488 checks=7987 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_frame_awb.v",
+          "sha256": "AA0CC00E17671A0C9E74EFFD9B2D42E85624ED413A79C87FAF83AD6E8CA26284"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_frame_awb.v",
+          "sha256": "9A452651608C03D4AD63218A930388749206C5C9FE3EE40C5A9ED7E03E1C7F8D"
+        }
+      ]
+    },
+    {
+      "case": "awb_key",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT AWB_KEY checks=18 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_awb_key_gesture.v",
+          "sha256": "CC5DA1BD8271CC11D6AE88F5D504B00D051EE0D584926005367F0BB8F6D377DB"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_key_mode_request.v",
+          "sha256": "8C9583BAFA6DF296374C39678280F73A4C71702F60F6252BBAD8AAD2E9EFA065"
+        }
+      ]
+    },
+    {
+      "case": "awb_status",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT AWB_STATUS checks=206 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_awb_status_cdc.v",
+          "sha256": "58BBAD32BF56D8987E8D7EDDFCFA5A5F94C6BB20184D2EADF5CFA5B199547F9C"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_diag_snapshot_cdc.v",
+          "sha256": "796511F823A194FC430CF6FE61A1B7A6266D71A06B0D9BC4C08C44CA023378C0"
+        }
+      ]
+    },
+    {
+      "case": "closed_ae",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT CLOSED_AE checks=418 errors=0 requests=37"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_closed_loop_ae.v",
+          "sha256": "8488C3C0711E5A983ED3AE2D939BCDC9627167204385C35E855C6CA36A4EC565"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_ae_frame_stats.v",
+          "sha256": "359AE453603518B0A3F38639FE7B3AF4F67D17B4DC4E8125A52A0A2554E18CDD"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_closed_loop_ae.v",
+          "sha256": "19B79185F22822A81F2B8EA1BC13C13B8F141A962763199FE873BD7B60D37410"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_diag_snapshot_cdc.v",
+          "sha256": "796511F823A194FC430CF6FE61A1B7A6266D71A06B0D9BC4C08C44CA023378C0"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_csi_sof_events.v",
+          "sha256": "3315CE0C8CDAB6E67D842B653AD3D9460473E938033AF9A0399DA5A2BC80061E"
+        }
+      ]
+    },
+    {
+      "case": "ae_stats",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "RESULT AE_STATS 16x4 checks=9 errors=0 total=8128"
+      ],
+      "sources": [
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/tb_ae_stats.v",
+          "sha256": "DA2EDE2F707C65EA5761BEC0F9B607EF2995BDBDAEAA0E73B3E404D6A893348A"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_ae_frame_stats.v",
+          "sha256": "359AE453603518B0A3F38639FE7B3AF4F67D17B4DC4E8125A52A0A2554E18CDD"
+        }
+      ]
+    },
+    {
+      "case": "four_modes",
+      "passed": true,
+      "compile_exit": 0,
+      "run_exit": 0,
+      "results": [
+        "PASS: processing top width=1280 rows=6 valid=19201 markers=19262 sof=11 eol=60 reset=4 hardcoded=4 errors=0"
+      ],
+      "sources": [
+        {
+          "path": "sim/custom/tb_custom_processing_top.v",
+          "sha256": "22124222A3B9B048971437D85830FA046034095E2C796FB484CC3135206AA32E"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_processing_top.v",
+          "sha256": "356378D0430DCD9DB3AF961D72E7A3E43236DEFB754093C9C8E2FDC6E1A3F2B2"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_gray_threshold.v",
+          "sha256": "775C56A4DA935AFABC68AA9C113504EFC4A72750623F26260FBE58C605181FAE"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_rgb_to_gray.v",
+          "sha256": "BA79D03B7F139044E114899793C70DA51D74AADDFA3370103FE5D6D74B6162DD"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_sobel_4px.v",
+          "sha256": "AFCC1CD67B7525C11EFC321626115534F3DE82DF827DE240BB7E22B655A6BCD5"
+        },
+        {
+          "path": "qa/sc520cs_frame_awb_trial_20261016/rtl/custom/custom_awb_sof_aligner.v",
+          "sha256": "567CFC61CF7127C9A439238453927DEB298D9EDA4FF0D0FC68A1E9E64F668940"
+        }
+      ]
+    }
+  ],
+  "source_bindings": {
+    "groups": 8,
+    "entries": 105,
+    "status": "pass",
+    "gray_exhaustive_certificate_matches_current_bytes": true
+  },
+  "local_dependency_check": {
+    "status": "pass",
+    "files": 394,
+    "al_entries": 70,
+    "auto_excluded": 6
+  },
+  "public_only_check": {
+    "status": "pass",
+    "files": 19,
+    "withheld": 375,
+    "local_mode_missing_dependencies_expected": true
+  },
+  "physical_actions": "none",
+  "td_rebuild_this_cleanup": false
+}

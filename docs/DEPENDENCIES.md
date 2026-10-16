@@ -1,15 +1,39 @@
-# 依赖、许可与公开范围
+# 依赖与公开范围
 
-`.gitattributes` 保留文件原始字节，避免 Git 自动换行转换使冻结源/测试哈希失效；发布前逐个比较 Git blob 与清单 SHA。
+## 仓库内容
 
-本轮检查了 vendor 下的许可/README 文件名及当前自研源头部。仅找到工具生成的 IP README，未找到明确授予厂商例程、生成 IP、加密 RTL、手册或衍生 bit 公开分发权的许可。这是“未找到许可”，不是法律上断言禁止一切使用；因此这些内容默认仅留本地，不另加开源许可证代替权利人授权。
+公开仓库包含自研 RTL、必要测试平台、检查脚本、项目文档及依赖清单。完整集成工程还使用厂商例程、生成 IP、加密 RTL 和本地修订的厂商文件，这些内容目前仅保留在本地。
 
-公开内容限本项目自研模块、必要自检、项目自己编写的文档和不含源码的依赖清单。已有被跟踪的旧文件也纳入审查：当前版本移除过期报告、旧模块副本和历史日志；历史提交不改写。未发布厂商文件或复制其源码的补丁。公共仓库不是可独立构建完整镜像的厂商工程包。
+对本地厂商材料的许可文件、README 及相关源文件头部检查后，尚未找到明确覆盖上述文件、手册或衍生 bit 的公开分发授权。因此，仓库暂不提供这些材料、包含厂商源码的补丁或完整编程镜像。该处理依据是当前掌握的许可资料，后续取得授权后可调整发布范围。
 
-`../release/dependencies.csv` 每行记录仓库相对路径、字节数、SHA256、公开/本地状态；`../release/active_sources.csv` 保留 .al 的全部 70 条记录、AutoExcluded 和编译顺序属性，不能把 70 条全称作活动 HDL。`../release/current.json` 指定唯一候选、入口与 bit。IP 的精确版本以 XML/IPC 哈希为准，不从目录名猜测版本。
+工具安装包、许可证、密钥、缓存、Runs 数据库和个人目录配置不属于仓库发布内容。旧候选、原始视频、完整日志及历史 bit 保留在本地归档中。
 
-获取方式：从安路比赛/开发板官方支持渠道取得 SC520CS Lab1、对应 PH1P35 IP 及手册；从芯片供应方取得 SC520CS-03 数据手册 V1.6 和应用指南 V1.4；从安路取得 Tang Dynasty 6.2.168116。不得以旧 SC500CS 工程替代。当前集成副本还含本地修订的顶层、ISP、AWB、复位/CDC 和相机控制接线，原始官方下载包不自动等于这些精确哈希。恢复完整本地工程须使用整理前快照或经授权取得精确集成文件，再运行 `python scripts/verify_current.py --local`；单靠下载原例程不能声称已复现当前 bit。
+## 依赖清单
 
-无工具安装包、许可证、密钥、缓存、Runs/DB、个人目录、原始翻拍视频或历史 bit 上传。选定 bit 只有 1,789,539 字节，尺寸不是阻碍；因包含厂商 IP 且授权不明，本次不放仓库或 Release。演示视频目前也无发布必要，只保留实物观察文字和来源记录。将来取得授权后可单独发布所需资产，不发布全部历史产物。
+|文件|用途|
+|---|---|
+|[current.json](../release/current.json)|当前候选、工程入口、构建来源和 bit 信息|
+|[active_sources.csv](../release/active_sources.csv)|工程全部 70 条记录，含 AutoExcluded 和编译顺序属性|
+|[dependencies.csv](../release/dependencies.csv)|仓库相对路径、文件大小、SHA256 及公开状态|
 
-GitHub 当前规则：超过 50 MiB 警告，超过 100 MiB 拒绝普通 Git 文件。本次对最终上传清单逐文件检查，未靠 .gitignore 掩盖已跟踪文件。依据：[GitHub 大文件说明](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)。
+70 条工程记录中包含 6 条自动排除项，并非全部参与 HDL 编译。IP 的精确配置由 XML/IPC 文件哈希标识。
+
+公开文件通过 `.gitattributes` 保留原始字节，避免自动换行转换影响源文件哈希。发布检查已逐项比较 Git blob 与工作区文件。
+
+## 获取与恢复
+
+从安路比赛或开发板官方支持渠道获取 SC520CS Lab1、PH1P35 配套 IP、板级资料及 Tang Dynasty 6.2.168116；摄像头资料包括 SC520CS-03 数据手册 V1.6 和应用指南 V1.4，可向供应方获取。
+
+当前集成版本包含本地修订的顶层、ISP、AWB、复位与 CDC 逻辑及相机控制接线。官方原始例程与当前集成文件的哈希并不必然一致，旧 SC500CS 工程也不能替代该版本。恢复现有成果时，应使用整理前快照，或经授权取得清单对应的精确文件，然后执行：
+
+```powershell
+python scripts/verify_current.py --local
+```
+
+仅取得官方原始例程不足以复现当前 bit。完整构建的依赖和脚本限制见[构建说明](CURRENT_BUILD.md)。
+
+## 二进制与视频
+
+当前选定 bit 为 1,789,539 字节。由于厂商 IP 的分发授权尚未明确，该文件未放入仓库或 Release，仓库仅保留来源、大小及 SHA。演示视频目前保留本地原件及观察记录。
+
+2026-10-16 发布检查覆盖了最终文件清单和原有已跟踪文件，未包含超限文件。GitHub 对超过 50 MiB 的普通 Git 文件发出警告，超过 100 MiB 则拒绝接收，参见 [GitHub 大文件说明](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)。

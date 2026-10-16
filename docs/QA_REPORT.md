@@ -1,26 +1,73 @@
-# 当前候选 QA（2026-10-16）
+# 验证报告
 
-范围为 `release/current.json` 指定的完整帧 AWB 集成候选。本轮只整理、检查路径/哈希、公开文件验证和必要自检；没有修改任何正式/候选 RTL、厂商 IP、ADC、SDC 或 .al，没有重跑 TD 综合/布局布线，没有操作下载器或 Flash。
+验证对象为 [current.json](../release/current.json) 指定的完整帧 AWB 集成候选。2026-10-16 的验证包括文件与源绑定检查、必要 RTL 回归及公开文件独立导出检查。TD 综合、实现与 bit 生成结果引用该候选既有记录。
 
-|项目|状态|证据与边界|
+本次仓库整理未改变 RTL、IP、ADC、SDC 或 TD 工程输入，也未进行下载器或 Flash 操作。
+
+## 文件与功能检查
+
+|项目|状态|结果|
 |---|---|---|
-|仓库身份/默认分支|pass|origin为YJQ486/HX1P35A-Image-Processing；默认main；整理前HEAD f4b0fbfb7e668ac975dd944ae9be4a7282fef80e；fetch后无分叉|
-|活动工程/依赖|pass|70条.al记录含6排除；全部路径存在；394项源/IP/脚本/证据哈希匹配；56个显式活动Verilog模块无重名|
-|旧仿真与当前源绑定|pass|原verify_test_source_bindings.py：8组105项；CSA穷举证书与当前灰度字节一致；freeze_diag_sources.py匹配syn_6输入|
-|本轮当前源回归|pass|7组；小帧AWB7987、完整720行AWB8755237、按键18、状态CDC206、AE控制418、AE统计9项检查均errors=0；四模式1280宽6行19201有效拍、19262标记检查errors=0|
-|公开独立导出|pass|无vendor/project/旧QA的目录中，公开19项源哈希及6组基础回归通过；--local按预期报375项未包含依赖，不冒充完整工程|
-|综合/布局布线/bit|pass（历史工具范围）|syn_6 → run_route_11_gray_csa → final精确查询 → checked bitgen；本轮输入SHA与原生清单一致，bit来源/大小/SHA复核；本轮未重建|
-|时序/CDC已建模路径|pass（限定）|SWNS +0.103 / HWNS +0.020 ns，STNS/HTNS0，覆盖98.75%；gray36条7.2ns Active最小+6.097ns；AE176位8ns+7.112ns；面板177位12ns+11.127ns|
-|完整物理/外部时序签核|not tested|4类dummy、36输入无delay、64输出无delay、1部分输入；PLL lock/hardPHY/DDR/MTBF/外部电气边界未完成|
-|C实物对照|pass（用户观察）|C已上板，与A接近可能略好；加载SHA未独立核验，见BOARD_VALIDATION|
-|偏色修复|fail|用户明确仍未解决|
-|全部模式/OSD/反复切换板测|not tested（完整验收）|本轮无逐项实物证明|
-|长期稳定/Flash冷启动/最终签核|not tested|不计算竞赛已通过条目数；本轮不进行硬件操作|
+|工程与依赖|pass|70 条工程记录含 6 条自动排除项；路径全部存在，394 项依赖哈希匹配|
+|显式活动 Verilog 模块|pass|解析得到 56 个模块名，未发现重复定义；加密和生成 IP 以 TD 展开记录为准|
+|历史回归的源绑定|pass|8 组回归、105 项编译源匹配；当前灰度源与 CSA 全 RGB 穷举证书一致|
+|公开文件独立运行|pass|19 项公开源文件校验通过，6 组基础回归通过|
+|完整本地依赖检查|pass|本地依赖及 bit 匹配；公开导出缺少的 375 项依赖按预期报告|
 
-综合资源为syn_6 gate.area口径：LUT18946、REG17569、SLICE15365、DRAM LUT296、ERAM20K42、DSP16；这是综合估算，不与route资源混为一谈。告警保留SYN-5013×789、SYN-5025×3、加密MC latch HDL-5369×1、SYN-5065×1及PHY局部时钟/路由相关告警；新模块名过滤告警0不能抹掉全工程告警。精简原始审计摘录和哈希见 `release/historical_audit_excerpt.txt`；完整日志/失败TimingHigh访问冲突及未过时序试验留在本地QA。
+本次当前源回归共 7 组：
 
-历史测试清单见 `release/historical_test_summary.csv`（19组，包含独立负例）。完整原厂divider门级仅短帧，720行原AWB使用经门级比较的非恒定算术模型；新完整帧AWB除法是实际RTL。接线层测试中部分AWB/PLL被注入，不能称整个加密ISP完整门级720行证明。no-gap FIFO历史反例与异常帧不保证无损恢复的边界继续保留，未由本轮目录整理宣称消除。
+|测试|检查规模|结果|
+|---|---|---|
+|小帧 AWB|7,987 项检查|errors=0|
+|1280 × 720 完整帧 AWB|19 帧，17,510,400 像素，8,755,237 项检查|errors=0|
+|长短按键与 A/B/C 切换|18 项检查|errors=0|
+|状态 CDC|206 项检查|errors=0|
+|室内 AE 控制|418 项检查|errors=0|
+|AE 统计|9 项检查|errors=0|
+|四模式处理|1280 宽、6 行，19,201 个有效拍及 19,262 项标记检查|errors=0|
 
-本轮仿真最初在沙盒内compiler退出3221225477，失败证据保留；获准本机执行后7组通过。公开 `release/validation.json` 记录本轮通过结果、源哈希、历史绑定复核和独立导出结论；本地完整原始输出在 `build/current_tests/20261016_233744/` 和 `exports/public_current_20261016/build/current_tests/20261016_234152/`。本轮测试绑定当前候选qa/rtl，未误用根目录旧rtl。
+测试使用当前候选目录中的自研 RTL。源哈希和结果汇总见 [validation.json](../release/validation.json)。原始输出位于本地 `build/current_tests/20261016_233744/`；独立公开导出结果位于 `exports/public_current_20261016/build/current_tests/20261016_234152/`。
 
-恢复位置、待保留4个暂存文件与移除清单见 CLEANUP_AND_RECOVERY。任何新构建必须重新运行与新网表相匹配的证明，不能把本次源绑定检查当作未来任意构建签核。
+首次沙盒执行中编译器异常退出，退出码为 3221225477；失败日志已保留。改用本机执行后，上述 7 组测试全部通过。
+
+## 构建、资源与时序
+
+现有构建记录为 `syn_6 → run_route_11_gray_csa → final 查询 → checked bitgen`。工程输入与原生源清单一致，选定 bit 的来源、大小和 SHA 已复核。此次检查未重新构建。
+
+`syn_6` 的 `gate.area` 综合估算如下：
+
+|LUT|REG|SLICE|DRAM LUT|ERAM20K|DSP|
+|---:|---:|---:|---:|---:|---:|
+|18,946|17,569|15,365|296|42|16|
+
+|时序 / CDC 项目|结果|
+|---|---|
+|Setup WNS / TNS|+0.103 ns / 0|
+|Hold WNS / TNS|+0.020 ns / 0|
+|时序覆盖率|98.75%|
+|36 条 Gray 路径|7.2 ns 约束有效，最小裕量 +6.097 ns|
+|AE 176 bit 数据包|8 ns 约束，最小裕量 +7.112 ns|
+|面板 177 bit 数据包|12 ns 约束，最小裕量 +11.127 ns|
+
+以上结果适用于工具已建模路径。时序检查仍列出 4 类 dummy、36 个未设输入 delay 的对象、64 个未设输出 delay 的对象及 1 个部分输入 delay 对象；PLL lock、硬 PHY、DDR、MTBF 和外部电气验证尚未完成。
+
+现有告警包括 SYN-5013 × 789、SYN-5025 × 3、加密 MC 中的 HDL-5369 latch × 1、SYN-5065 × 1，以及 PHY 时钟局部布线与路由告警。自研模块名称过滤下未发现新增告警。完整工程告警仍按原记录保留，摘录见 [historical_audit_excerpt.txt](../release/historical_audit_excerpt.txt)。失败的 TimingHigh 运行及负时序试验日志保存在本地 QA。
+
+## 仿真覆盖范围
+
+[历史测试清单](../release/historical_test_summary.csv)包含 19 组测试及独立负例。原厂 divider 的真实门级测试覆盖短帧；720 行原 AWB 测试使用经过门级比对的非恒定算术模型，新完整帧 AWB 的除法使用实际 RTL。接线层测试对部分 AWB 和 PLL 信号进行了注入。
+
+因此，这些结果不等同于整个加密 ISP 的完整门级 720 行验证。历史无间隙 SOF 下的 FIFO 反例，以及异常帧不保证无损恢复的限制仍然保留。
+
+## 板级状态
+
+|项目|状态|说明|
+|---|---|---|
+|C 方案实物观察|pass，限所述观察|与 A 接近，可能略好；加载 SHA 未独立核验|
+|偏色修复|fail|偏色仍然存在|
+|全部模式、OSD 与反复切换|not tested，完整验收待完成|尚缺逐项板级记录|
+|长期稳定性|not tested|尚缺持续运行及异常统计|
+|Flash 无 PC 冷启动|not tested|尚未执行独立启动测试|
+|最终板级验收|not tested|待上述项目完成后评定|
+
+实物依据及后续测试方法见[板级测试记录](BOARD_VALIDATION.md)。目前不据此统计竞赛已通过条目数。后续若改变工程输入或重新实现，须重新建立测试与网表证据的对应关系。

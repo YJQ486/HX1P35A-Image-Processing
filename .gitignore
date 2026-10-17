@@ -47,3 +47,7 @@
 !/scripts/verify_current.py
 !/sim/custom/tb_custom_processing_top.v
 !/.gitattributes
+
+!/docs/STAGE_BASELINE.md
+!/docs/CONTEST_CHECKLIST.md
+!/release/stage_baseline_20261017.json

@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-17",
+  "candidate": "qa/sc520cs_frame_awb_trial_20261016",
+  "project_entry": "qa/sc520cs_frame_awb_trial_20261016/lab_ex1_mipi_hdmi/td_project/camera_to_dsi_display.al",
+  "bit": {
+    "path": "qa/sc520cs_frame_awb_trial_20261016/run_bitgen_frame_awb_checked/sc520cs_frame_awb.bit",
+    "bytes": 1789539,
+    "sha256": "794946D5664CA984C8033C62786BD026BE0DF223317D808743B6A2D367E83371",
+    "distribution": "local-only; redistribution permission unconfirmed"
+  },
+  "source_manifest": "release/dependencies.csv",
+  "source_check": {
+    "status": "pass",
+    "checked": 394,
+    "errors": 0,
+    "method": "python scripts/verify_current.py --local; no rebuild"
+  },
+  "videos": [
+    {
+      "path": "docs/board_tests/20261009/four_mode_demo.mp4",
+      "bytes": 5172750,
+      "sha256": "FD9EA53A01ECA50D68781E79B9331A3C10AB7E3412BCF52C72654743F7BDBC9E",
+      "scope": "historical four-mode demo; not proof of this baseline bit"
+    },
+    {
+      "path": "qa/sc520cs_frame_awb_trial_20261016/video_review/original_awb_ab_demo.mp4",
+      "bytes": 1686211,
+      "sha256": "95956691DF2019FCD2196BA71828568137191442430E5C38C3F8F43161CEBBA1",
+      "scope": "historical A/B/A comparison, 33.067 s, 992 frames at 30 fps per metadata; no C video"
+    }
+  ],
+  "contest_source": {
+    "path": "docs/reference/赛题解析二 .pptx",
+    "sha256": "80A35371A96A6DD7F9745432E575FA9B4D7DC09409E180DA934F0149C1A1E061",
+    "slides": [
+      5,
+      6,
+      12,
+      18,
+      26
+    ]
+  },
+  "board_c": "user reported; loaded SHA not independently confirmed",
+  "stability": "not tested; 20-30 minutes pending user",
+  "git_cleanup": "already completed; remote main verified at 14800f3d162800df992de859b0f59cd54e48e28d before this documentation update",
+  "scope": "documentation and evidence only; no RTL change, rebuild, download or Flash"
+}

@@ -7,7 +7,7 @@
   "td_version": "6.2.168116",
   "camera": "SC520CS",
   "resolution": "1280x720",
-  "selection": "current integration candidate, not final stable release",
+  "selection": "stage demonstration baseline accepted 2026-10-17; not final stable release",
   "modes": [
     "color",
     "grayscale",
@@ -40,5 +40,7 @@
   },
   "board_observation": "User reports C tested, close to A, perhaps slightly better; color cast unresolved. Loaded SHA not independently verified.",
   "flash": "not tested",
-  "long_term_stability": "not tested"
+  "long_term_stability": "not tested; 20-30 minute test pending user completion",
+  "demo_awb": "C; select manually after reset (reset remains A)",
+  "image_tuning": "AE/AWB tuning paused by user; indoor brightness and mild color cast accepted"
 }

@@ -4,16 +4,14 @@
 
 ## 做法与可见效果
 
-```mermaid
-flowchart LR
-    A[从 DDR 读出画面] --> B[叠加左上运行信息]
-    B --> C[读取右上 Logo 像素]
-    C --> D{该点是否透明}
-    D -->|透明| E[保留底图]
-    D -->|不透明| F[显示 Logo 颜色]
-    E --> G[HDMI 输出]
-    F --> G
-```
+![Logo 透明像素保留底图，不透明像素显示 Logo 颜色](diagrams/logo_overlay.png)
+
+<details>
+<summary>流程图的可编辑源码</summary>
+
+图形由[生成脚本](../scripts/render_doc_diagrams.py)中的 `logo_overlay` 定义绘制，中文字体在生成图片时固定，显示时不再重新测量文字宽度。修改步骤或文字后，可用 Pillow 重新生成。
+
+</details>
 
 Logo 使用官方 160×160 位图，放在 1280×720 画面的右上 `(1088,16)` 位置。它在四模式处理之后叠加，所以背景切成灰度或黑白时，Logo 仍可保留自己的颜色。像素与行、帧标记一起延迟，避免图案与画面错位。
 

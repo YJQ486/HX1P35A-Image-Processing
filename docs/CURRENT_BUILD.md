@@ -23,14 +23,14 @@ python scripts/test_current.py --iverilog-bin D:/iverilog/bin --full
 
 ## 完整构建经过什么
 
-```mermaid
-flowchart LR
-    A[核对版本与依赖] --> B[综合：代码转换成电路]
-    B --> C[布局布线：安排位置和连线]
-    C --> D[核查时序与跨时钟传递]
-    D --> E[生成 bit 配置文件]
-    E --> F[核对文件并进行实物测试]
-```
+![版本依赖、综合、布局布线、时序核查、配置文件与实物测试](diagrams/build_steps.png)
+
+<details>
+<summary>流程图的可编辑源码</summary>
+
+图形由[生成脚本](../scripts/render_doc_diagrams.py)中的 `build_steps` 定义绘制，中文字体在生成图片时固定，显示时不再重新测量文字宽度。修改步骤或文字后，可用 Pillow 重新生成。
+
+</details>
 
 任一步失败都需保留报告。工具退出码为 0 只说明程序结束正常，还要看时序、告警和实际输出。生成 bit 不会自动证明开发板运行正常。
 

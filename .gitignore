@@ -58,3 +58,7 @@
 !/docs/READING_GUIDE.md
 !/docs/GLOSSARY.md
 !/docs/SC520CS_BRIGHTNESS_BASELINE_AUDIT.md
+
+!/docs/diagrams/
+!/docs/diagrams/*.png
+!/scripts/render_doc_diagrams.py

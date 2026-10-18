@@ -19,17 +19,14 @@
 
 ## 画面怎样到达屏幕
 
-```mermaid
-flowchart LR
-    A[摄像头采集] --> B[接收原始像素]
-    B --> C[还原彩色画面]
-    C --> D[调整颜色并选择显示效果]
-    D --> E[暂存整帧画面]
-    E --> F[叠加框线、文字和 Logo]
-    F --> G[HDMI 显示器]
-    C -. 统计明暗 .-> H[自动曝光控制]
-    H -. 调节曝光和增益 .-> A
-```
+![从摄像头采集到 HDMI 显示，以及自动曝光反馈](docs/diagrams/video_overview.png)
+
+<details>
+<summary>流程图的可编辑源码</summary>
+
+图形由[生成脚本](scripts/render_doc_diagrams.py)中的 `video_overview` 定义绘制，中文字体在生成图片时固定，显示时不再重新测量文字宽度。修改步骤或文字后，可用 Pillow 重新生成。
+
+</details>
 
 框线、文字和 Logo 属于后续检测版本。自动曝光从白平衡之前的画面统计明暗；红色检测从白平衡之后、四种显示效果之前的彩色画面取样。因此切到灰度后，检测仍然依据原彩色数据工作。接线细节见[系统设计](docs/PROJECT_ANALYSIS.md)。
 

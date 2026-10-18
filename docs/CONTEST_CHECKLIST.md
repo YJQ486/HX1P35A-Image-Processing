@@ -19,14 +19,14 @@
 
 ## 后续演示顺序
 
-```mermaid
-flowchart TD
-    A[确定最终候选与文件指纹] --> B[演示摄像头和四种模式]
-    B --> C[检查 Logo、按键和红色框选]
-    C --> D[记录连续运行与复位]
-    D --> E[完成固化及脱离电脑启动]
-    E --> F[整理正式提交材料]
-```
+![从核对候选到功能演示、连续运行、固化启动和正式提交](diagrams/contest_steps.png)
+
+<details>
+<summary>流程图的可编辑源码</summary>
+
+图形由[生成脚本](../scripts/render_doc_diagrams.py)中的 `contest_steps` 定义绘制，中文字体在生成图片时固定，显示时不再重新测量文字宽度。修改步骤或文字后，可用 Pillow 重新生成。
+
+</details>
 
 2026-10-18 的[亮度核查](SC520CS_BRIGHTNESS_BASELINE_AUDIT.md)已记录 `stable` 上板反馈，但现场文件指纹、修复效果和长稳结论未补齐。下方表格保留 2026-10-17 的逐项来源和当时状态；P0/P1/P2/P3 依次表示更靠前到更靠后的工作优先级，不是比赛得分。
 

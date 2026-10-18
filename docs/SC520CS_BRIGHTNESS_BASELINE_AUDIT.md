@@ -17,13 +17,14 @@
 
 ## 为什么“请求了增益”还不能写成“实际增益已到位”
 
-```mermaid
-flowchart LR
-    A[FPGA 计算期望曝光和增益] --> B[通过总线发出请求]
-    B --> C[记录事务是否完成]
-    C --> D[读取传感器寄存器]
-    D --> E[观察图像何时真正变化]
-```
+![曝光增益的计算、发请求、事务完成、读回及图像响应是不同证据](diagrams/exposure_evidence.png)
+
+<details>
+<summary>流程图的可编辑源码</summary>
+
+图形由[生成脚本](../scripts/render_doc_diagrams.py)中的 `exposure_evidence` 定义绘制，中文字体在生成图片时固定，显示时不再重新测量文字宽度。修改步骤或文字后，可用 Pillow 重新生成。
+
+</details>
 
 这些是不同层次的证据。屏幕上的 `REQ` 是请求值，`DON` 是 FPGA 记录的完成目标，都不能直接叫作传感器实时读回。现有读回快照不是持续更新的完整状态，旧候选的读值也不能套给当前 `stable`。
 

@@ -1,0 +1,125 @@
+# 原红色检测：能框出红色，也暴露了扩框问题
+
+这个候选在 Logo 版本上加入红色区域统计，用黄色边框和 `RED TARGET` 显示结果。实际视频显示：中央目标基本能框住，但靠近边缘时，框有时突然跨过大块背景。该问题已转入[稳定性修复](SC520CS_RED_STABILITY_REPORT.md)，本报告保留原算法与构建证据。
+
+## 原算法为什么会扩框
+
+它先找出符合颜色条件的点，再用全画面最左、最右、最上、最下的命中位置形成一个大框。目标之外的远处红点也参与计算，因此两个相离区域可能被圈在同一个框里。
+
+```mermaid
+flowchart LR
+    A[白平衡后的彩色数据] --> B[判断每个点是否足够红]
+    B --> C[累计全画面的命中点]
+    C --> D[用所有点的最外侧位置画框]
+    E[远处同色小块] -. 也参与统计 .-> C
+    D --> F[可能跨过大片背景]
+```
+
+颜色条件默认为红色通道至少 144，并且分别比绿色、蓝色高至少 48；红点至少 160 个，连续 3 个完整帧才确认。它不判断物体形状和类别。
+
+## 哪些结果仍然有效
+
+|项目|结果|怎样理解|
+|---|---|---|
+|原算法与叠加测试|两种尺寸各 39 帧、2,909,421 项比较，0 错误|测试实现是否遵循原规则；原规则本身仍会合并远处红点|
+|最终工具构建|已完成，setup/hold +0.008/+0.020 ns|setup 仅剩 8 皮秒余量；不是长时间可靠性证明|
+|实物视频|约 31.28 秒，确认贴边扩框|这一稳定性项失败，不能被工具通过抵消|
+|修复后表现|另有新候选，2026-10-18 已收到上板反馈|实物改善与长稳结论仍需记录，不能使用原版本结果替代|
+
+下方保留原候选的信号、文件指纹和失败构建过程。其中实物待测的句子应按生成时点理解。移动目标坐标与显示帧尚未精确绑定，框可能滞后；旧 FIFO 无间隙帧首反例也继续保留。
+
+
+<details>
+<summary>原算法的接口、测试与构建记录（点击展开）</summary>
+
+后续板测反馈（2026-10-17）：用户报告本红色候选已上板，中央基本可框住，但靠边时会突然扩框；31.28秒视频支持该现象，不能代表20分钟通过。独立稳定性修复与新bit见[稳定性报告](SC520CS_RED_STABILITY_REPORT.md)，本报告以下保留原候选构建历史。
+
+本候选已完成自检、相关回归、clean 综合、布局布线、约束复核和 checked bitgen。setup/hold 为 +0.008/+0.020 ns，setup 裕量仅 8 ps；实物验收仍待用户提供。
+
+本轮从用户刚反馈上板成功的 Logo 候选 `qa/sc520cs_logo_osd_trial_20261017` 新建 `qa/sc520cs_red_target_trial_20261017`。基线实际 bit 为 `run_bitgen_logo_checked/sc520cs_logo_osd.bit`，现场复核 SHA256 为 `04DF31EBD4758E2076B895F29004A2E8B15CDDDA7885F37798408F05A3E0D23A`，1789539 字节；此前 Logo 报告的未上板状态属于当时记录。用户反馈未独立绑定现场加载 SHA，且当前 20 分钟实测结果仍待用户提供。
+
+## 工程与算法
+
+工程入口为候选内 `lab_ex1_mipi_hdmi/td_project/camera_to_dsi_display.al`，design_top_wrapper、PH1P35MDG324、Speed -3，TD 6.2.168116。73 条源记录全部解析到独立候选内，完整路径和 SHA 见 `red_source_manifest.json`；相对 Logo 工程只修改顶层/ISP 接线及 .al 清单，新增 `custom_red_detector.v`、`custom_red_overlay.v`。其他工程源记录字节一致，见 `source_delta.json`、`inheritance_check.json`。
+
+这是颜色区域检测，不是物体类别识别。取 A/B/C 白平衡选择后的原彩色 RGB888，在灰度/二值/Sobel/彩色四模式选择之前并行统计。统计源不含 HDMI 诊断面板、Logo 或本次标签，不产生叠加反馈。构建参数默认 R≥144、R-G≥48、R-B≥48，最小 160 像素，连续 3 个完整帧确认。所有合格红像素取联合包围框；不划分连通域，多块红色区域会合为一个框，累计同色噪点超过门限仍可能误检。参数可在构建时配置，不占新按键。
+
+检测结果经持有数据和请求/应答邮箱跨到 HDMI 像素域，在显示 VS 上升沿原子更新正结果与四个坐标。一个完整帧无足够红像素、异常行/帧、上游协议故障、复位或停流超时均清除；连续 4 个 HDMI VS 没有新结果也清除。恢复后重新确认，不继承旧框。最后 EOL 完成统计，经独立结果寄存级发布，不改变视频数据延迟。每拍 4 像素先并行求左右端点和红像素个数，再更新一次统计，避免四级比较/加法串接。
+
+框为黄色、2 像素宽，文字为 RED TARGET，(192,16)、120×14；框线跳过左上 160×208 诊断面板与右上安路 Logo 范围 (1088,16)..(1247,175)。在 mixer 后、原诊断面板与 Logo 前新增 1 个像素寄存级，DE/HS/VS/RGB 同延迟；原面板 3 级、Logo 3 级。输出为 1280×720，总时序 1650×750。
+
+接口信号、域、端点和故障策略见候选 RED_CONTRACT.md（本地证据：`qa/sc520cs_red_target_trial_20261017/RED_CONTRACT.md`）。结果源自已完成的摄像头帧，经邮箱和后续显示帧才呈现；本轮未把元数据绑定 DDR 帧槽，不声称与显示帧精确对应，移动目标存在滞后。
+
+室内 AE、A/B/C、默认 RGB/A、短按切四模式及长按切 A/B/C 的行为不变，暂停 AE/AWB 调参。MIPI/DDR/HDMI IP、引脚、PLL、原时钟/复位/FIFO 修复保持。本轮不下载、不写 Flash，不修改 release/current.json。
+
+## 仿真和继承回归
+
+ModelSim 2020.3 运行独立逐像素整帧参考与像素叠加参考，覆盖小图及实际 1280×720、出现/消失、移动、四边/角落、小噪点、多块红区、阈值边界、最小像素数前一值/等值/后一值、逐帧精确红像素计数、全红最大计数、EOL 两种位置、四模式帧中请求、短行、视频停流、故障、启动/帧中复位和恢复、异步邮箱一致性、原子更新、字形和保护区逐像素检查。
+
+原始小图/全分辨率自检均通过；新增结果寄存级及并行统计后分别重新执行，最终证据以 `tmp_red_modelsim_release3_small/full`、`final_unit_binding.json` 为准。每个几何版本 **39 帧、2909421 项检查、0 错误**，包含三个无行/帧间隙的连续帧。检测器无间隙检查不代表旧 FIFO 丢字反例已解决。Logo 自检也重新执行：3795937 项检查、27482 不透明/85158 透明命中、错误 0，见 `tmp_logo_modelsim/stdout.txt`。
+
+ModelSim 在沙箱遇到系统 DLL 重定位错误，改用宿主运行；首轮复位刺激残留 SOF 的错误及修正记录保留，不计为功能通过。上述仿真不等于完整加密 DDR/HDMI PHY 仿真，更不等于实物验收。继承回归仍按各原测试的 force、数值模型和厂商库边界解释，旧无间隙 SOF/FIFO 丢字反例保持披露。
+
+## 构建进展
+
+`syn_1` 在受限环境未完成；宿主 clean `syn_2` 完成，首轮 `run_route_1` 完成，当前网表精确入口审查后 SWNS=-1.307 ns、STNS=-41.569 ns、HWNS=+0.020 ns，44 条真实检测 setup 违例，禁止用于交付 bit。`first_route_violation_summary.txt`、`run_query_first_diag` 保存原始证据。
+
+依据实际路径先新增独立结果寄存级，clean `syn_3` 和 `run_route_2` 保留作对照；再对仍串接的每拍统计做并行端点/计数归约，当前 clean 综合为 `syn_4`。两版旧 RTL 及输入 SHA 分别在 `experiments/before_result_stage`、`experiments/before_parallel_extrema`，不覆盖失败证据。
+
+原时钟保持 CSI/MIPI_RX_BYTE_CLK 9.660 ns、HDMI_PIXEL_CLK 13.333 ns。CDC 仅精确限定已证明的首级 D/原始复位捕获入口，新增 51 个实际存活邮箱位沿用 12 ns 包络数据预算；灰码仍要求 36/36 条、7.2 ns，AE/按键仍保留原 8 ns。对当前打包位置重新查找并证明，不复用旧 packed pin，也不增加 blanket cut。最终当前网表与 bitgen 结果见下表；所有预算保持，未用放宽时钟或既有预算消除违例。
+
+## 实物验收
+
+新候选实物、20 分钟长稳、Flash、冷启动全部为 **not tested**，不得提前转为通过。按候选 BOARD_TEST_GATE.md（本地证据：`qa/sc520cs_red_target_trial_20261017/BOARD_TEST_GATE.md`） 手动核对最终 bit SHA，后续只按用户反馈登记结果。
+
+
+## 最终结果与证据绑定
+
+最终构建链：`syn_4 → run_route_3 → run_route_4_postopt → final → run_bitgen_red_checked`。全部为新运行；没有增量沿用 Logo 的 gate/db 作为本候选综合结果。post-route 优化尝试未改善 setup 裕量，仍如实保留 8 ps；不能据此宣称稳健板级签核。
+
+|检查|实际结果|证据（候选内）|
+|---|---|---|
+|clean 综合/布局布线/bitgen|pass；各进程退出 0，完整生成标记和数据库/bit 存在|syn4_runner.txt、run_route_3、run_route_4_postopt、run_bitgen_red_checked|
+|最终 setup/hold|pass（建模范围）；SWNS **+0.008 ns**、STNS 0；HWNS **+0.020 ns**、HTNS 0|bitgen_sta_status.txt、bitgen_sta_all.timing；bitgen 当场重载最终精确约束并重算|
+|建模覆盖率|**98.91%**；外部 I/O/PLL/硬 PHY/加密 DDR、MTBF 和板级验证仍不完整|bitgen_sta_all.timing、bitgen_check_timing.txt|
+|灰码预算|36/36，原 7.2 ns；最小 slack **+6.023 ns**|final_diag_gray36.tsv|
+|新增检测邮箱|51 个实际存活位，原型 12 ns 预算；最小 **+11.039 ns**；逐位源/捕获端、唯一跨域捕获、首级同步器和复位链证明通过|red_bundle_mapping.tsv、red_entry_scope.tsv、final_red_bundle_checked.tsv|
+|原诊断/AE/按键约束|177 位诊断 bundle 最小 +10.998 ns；170 组原下游检查保持；AE/手势 8 ns 原预算保持，后级未 blanket cut|final_audit_diag_reports.py.txt、final_audit_closed_reports.py.txt、final_audit_awb_reports.py.txt|
+|检测专项/官方 Logo|pass；两种几何各 39 帧/2909421 项，Logo 3795937 项；错误均 0|tmp_red_modelsim_release3_small/full、tmp_logo_modelsim、final_unit_binding.json|
+|相关既有回归|pass；14 组，另对最终统计 RTL 重跑实际顶层 AE 三场景；normal 13 帧/29 项，nack 2 帧/9 项，update_nack 13 帧/16 项，错误均 0|logo_regression_status.txt、red_regression_final.json、closed_ae_actual_top_final_evidence.txt|
+|数值/厂商模型边界|Icarus 12.0 devel 及 ModelSim 2020.3；AWB arithmetic_full 使用已验证的 divider 数值模型，gate_short 使用实际门级 divider/TD RAM；425 条既有 IP 告警保留|awb_arithmetic_full_pure_evidence.txt、awb_gate_short_evidence.txt；四模式链路保留 -i/force 的厂商 IP 边界|
+|输入与实测证据对应|79 项编译记录（7 个目录）、73 条工程源及 syn_4 全部输入 SHA 与当前源码一致；旧统计版本的 AE 证据另存，最终版本单独重跑|red_test_binding_result.txt、red_source_manifest.json、syn_4_input_hashes.json|
+|原文件/暂存区保护|7113 个 project/vendor/Logo 重点文件大小与 SHA 全一致；Git 暂存区一致；阶段基线 394 项依赖检查/0 错误，原成功 bit 保留|protection_after.json、baseline_verify_current.txt、staged_before.txt|
+
+最终物理资源（同口径 route.area）：
+
+|资源|Logo 基线|检测候选|增量|
+|---|---:|---:|---:|
+|LUT6|16715|17234|+519|
+|REG|17434|17823|+389|
+|Slice|18385|18922 / 21216（89.19%）|+537|
+|ERAM|42|42|0|
+|DSP|17|17|0|
+
+当前综合保留 123 条可见综合告警记录，其中无新增红区模块引用；HDL-5369、未连接/未驱动、RAM_STYLE 等继承问题按原样披露。clean 指重新综合，不表示工程零告警。完整见 red_synthesis_warnings.txt。最终 +8 ps setup 裕量很小，**只接受为已建模检查通过，不是长期稳定性证明**。
+
+- bit：sc520cs_red_target.bit（本地证据：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/sc520cs_red_target.bit`），**1789539 字节**。
+- SHA256：`7EBEC0062FF9966BEE76C043D831031FC9B09AD24DB62E0C34F08D781E289FFE`。
+- 清单：bitstream_manifest.json（本地证据：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/bitstream_manifest.json`）；汇总 red_release_summary.json；关键证据 SHA 见 red_release_evidence_manifest.csv。
+- 工程与所有原候选、原成功 bit 保留；未修改 project/vendor，未下载、未写 Flash；release/current.json 仍保留原阶段演示基线。
+
+构建入口（仓库根执行，目录拒绝覆盖；复现请选择新独立候选/运行名）：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_red_modelsim.ps1 -Full
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_logo_regressions.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_opt_gate.ps1 -RunName syn_4
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_implement.ps1 -RunName run_route_3 -SynRun syn_4
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_physical_diag_trial.ps1 -InputRoute run_route_3 -RunName run_route_4_postopt -Operation post_opt
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_current_audit.ps1 -Route run_route_4_postopt -Prefix final
+powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_red_target_trial_20261017/run_red_bitgen.ps1 -Route run_route_4_postopt -Prefix final
+```
+
+实物简测：用户后续核对 SHA 并手动加载 SRAM；用红纸进出/移动，检查出现、消失、四边、噪点和两块红纸联合框；短按走完四模式、长按 A/B/C；有框时复位并检查视频恢复无旧框；最后记录带 SHA 的 20 分钟观察。本轮不代用户执行这些步骤，也不将等待时间当作实测通过。
+
+</details>

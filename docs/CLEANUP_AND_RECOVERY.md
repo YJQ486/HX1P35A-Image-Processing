@@ -1,23 +1,23 @@
 # 归档与恢复说明
 
-这份文档说明 2026-10-16 整理仓库时保留了哪些备份，以及怎样找回旧文件。它是历史恢复说明，不是要求读者重新整理整个目录。
+本文记录 2026-10-16 仓库整理时的备份、归档和恢复方法，适用于该次整理前的文件与 Git 状态。
 
-## 先按需要找备份
+## 备份索引
 
-|想找回什么|去哪里找|注意|
+|恢复对象|保存位置|使用条件|
 |---|---|---|
 |整理前的完整文件，包括未跟踪文件|本地 `qa/_local_backups/pre_cleanup_20261016/snapshot/`|先恢复到新目录，避免覆盖当前成果|
 |Git 提交历史|同目录 `repository.bundle`，即独立的 Git 历史包|原始验证情况见下方记录|
 |旧报告和被替换的文档|本地 `qa/_local_archive/pre_cleanup_20261016/`|旧结论应按当时版本理解|
 |当时已暂存但未提交的改动|备份中的索引、补丁和对应文件|恢复时区分工作区与暂存区|
 
-“暂存区”是 Git 中选好准备提交的内容，它可能与磁盘上最新文件不同。恢复需要同时考虑两者，不能只复制文件后就认为原提交状态已经恢复。
+Git 暂存区记录拟提交内容，可能与工作区文件不同。恢复时应同时核对文件内容、索引条目及暂存补丁。
 
-完整备份约 43 GB，包含厂商材料及本机配置，未上传到 GitHub。下面保留当时的文件数、指纹清单与快照编号；它们不是本次文档整理重新验证整个备份的结果。[依赖说明](DEPENDENCIES.md)解释了哪些内容可以公开。
+完整备份约 43 GB，包含厂商材料及本机配置，未上传到 GitHub。以下文件数、校验清单和快照编号均来源于当时记录；2026-10-19 文档修订未重新验证整个备份。[依赖说明](DEPENDENCIES.md)解释了哪些内容可以公开。
 
 
 <details>
-<summary>2026-10-16 备份记录与恢复命令（点击展开）</summary>
+<summary>2026-10-16 备份记录与恢复命令</summary>
 
 ## 整理记录
 
@@ -38,7 +38,7 @@ qa/_local_backups/pre_cleanup_20261016/
 |文件 / 目录|用途|
 |---|---|
 |`snapshot/`|整理前完整文件树|
-|`backup_manifest.jsonl`|逐文件大小与 SHA256；源文件和备份已分别计算并比对|
+|`backup_manifest.jsonl`|逐文件大小与 SHA-256；源文件和备份已分别计算并比对|
 |`COMPLETE.json`|备份完成记录|
 |`repository.bundle`|独立 Git 历史备份，已通过 bundle verify|
 |`index.before`、`staged.patch`、`staged.entries.txt`、`staged_worktree/`|原暂存区及对应工作区文件|
@@ -62,13 +62,13 @@ qa/_local_backups/pre_cleanup_20261016/
 - `sim/custom/sc520cs_link_iverilog_evidence.txt`
 - `sim/custom/tb_sc520cs_processing_link.v`
 
-整理提交使用独立 Git 索引。提交后，上述文件按原 blob、mode 和 stage 恢复到新 HEAD 之上的暂存区，工作区内容也已核对。因此，整理完成后的状态仍显示这 4 项新增。
+整理提交使用独立 Git 索引。提交后，上述文件按原 blob、mode 和 stage 恢复到新 HEAD 之上的暂存区，工作区内容也已核对。在 2026-10-16 整理完成时，这 4 项仍显示为新增暂存文件。
 
 ## 本地归档
 
 旧报告和根目录 TD 日志移至 `qa/_local_archive/pre_cleanup_20261016/`，被替换的 README、忽略规则、工程分析和 QA 文档保存在其中的 `replaced/`。
 
-旧候选、完整日志、失败运行、历史 bit 和视频，以及旧 `rtl/`、`sim/` 依赖保留原本地路径，以维持既有工程引用。从当前公开版本移除的 26 个历史路径记录在 [retired_paths.csv](../release/retired_paths.csv)，每项包含原 SHA 和本地保留位置，已与 Git 路径移除清单核对。
+旧候选、完整日志、失败运行、历史 bitstream 和视频，以及旧 `rtl/`、`sim/` 依赖保留原本地路径，以维持既有工程引用。从当前公开版本移除的 26 个历史路径记录在 [retired_paths.csv](../release/retired_paths.csv)，每项包含原 SHA-256 和本地保留位置，已与 Git 路径移除清单核对。
 
 ## 恢复方法
 

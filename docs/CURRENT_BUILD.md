@@ -1,14 +1,14 @@
 # 构建与测试方法
 
-先区分“检查文件”“运行仿真”和“生成 FPGA 配置文件”。只阅读项目或验证公开模块，无需运行完整构建。以下常用脚本固定检查 AWB 阶段基线，后续 Logo 和检测候选按各专项报告追溯。
+文件校验、模块仿真和 bitstream 构建为独立流程。以下公共脚本对应 AWB 阶段基线；Logo、原红色检测、稳定性修复和暗红后继分别使用候选内的来源及构建记录。
 
-## 根据手头材料选择步骤
+## 环境条件与流程入口
 
-|手头有什么|可以做什么|入口|
+|依赖条件|适用操作|入口|
 |---|---|---|
-|只克隆公开仓库|检查公开源文件；安装仿真工具后运行模块测试|下面两条命令|
-|完整本地依赖与选定 bit|进一步核对工程、厂商依赖和文件指纹|`python scripts/verify_current.py --local`|
-|完整本地工程与 TD 工具|按独立候选的流程综合、布线并生成新 bit|展开的工程步骤；先看版本绑定限制|
+|只克隆公开仓库|检查公开源文件；安装仿真工具后运行模块测试|下列命令|
+|完整本地依赖与选定 bitstream|进一步核对工程、厂商依赖和文件指纹|`python scripts/verify_current.py --local`|
+|完整本地工程与 TD 工具|按独立候选的流程综合、布线并生成新 bitstream|展开的工程步骤；先看版本绑定限制|
 |真实开发板|记录画面、切换、复位和持续运行|[板级测试](BOARD_VALIDATION.md)|
 
 ```powershell
@@ -19,34 +19,34 @@ python scripts/verify_current.py
 python scripts/test_current.py --iverilog-bin D:/iverilog/bin --full
 ```
 
-第一条只检查公开清单，缺少的受限依赖会跳过；第二条测试 AWB、按键、状态同步、曝光和四模式等模块。输出保存在 `build/current_tests/时间戳/`，不是上板视频。仿真工具也可通过 `IVERILOG_BIN` 或 `PATH` 指定。
+第一条只检查公开清单，缺少的受限依赖会跳过；第二条测试 AWB、按键、状态同步、曝光和四模式等模块。输出保存在 `build/current_tests/时间戳/`，不包含板级视频证据。仿真工具也可通过 `IVERILOG_BIN` 或 `PATH` 指定。
 
-## 完整构建经过什么
+## 完整构建流程
 
 ![版本依赖、综合、布局布线、时序核查、配置文件与实物测试](diagrams/build_steps.png)
 
 <details>
 <summary>流程图的可编辑源码</summary>
 
-图形由[生成脚本](../scripts/render_doc_diagrams.py)中的 `build_steps` 定义绘制，中文字体在生成图片时固定，显示时不再重新测量文字宽度。修改步骤或文字后，可用 Pillow 重新生成。
+图形来源：[生成脚本](../scripts/render_doc_diagrams.py)中的 `build_steps` 定义；使用 Pillow 和固定中文字体生成。
 
 </details>
 
-任一步失败都需保留报告。工具退出码为 0 只说明程序结束正常，还要看时序、告警和实际输出。生成 bit 不会自动证明开发板运行正常。
+各阶段保留输入、日志与失败报告。退出码为 0 仅表示进程正常结束，仍需核对时序、告警和产物完整性；bitstream 生成成功不构成板级运行证明。
 
 ## 版本与使用条件
 
 阶段基线位于 `qa/sc520cs_frame_awb_trial_20261016`，完整工程入口为其中的 `lab_ex1_mipi_hdmi/td_project/camera_to_dsi_display.al`，顶层为 `design_top_wrapper`。硬件器件 PH1P35MDG324、Speed -3；开发工具 Tang Dynasty 6.2.168116。公开模块测试使用 Icarus Verilog，已有记录版本为 12.0(devel)；部分候选使用 ModelSim 2020.3。
 
-只取得官方例程不一定能复现当前文件；还需要对应的本地修订及精确依赖，见[依赖说明](DEPENDENCIES.md)。下方构建命令包含历史运行名，已有输出不能覆盖；复现需建立独立候选并更新测试与源码对应关系。`--local` 只是校验现有文件，不执行综合、下载或 Flash 写入。
+仅取得官方例程不足以复现 AWB 阶段 bitstream，还需对应本地修订及精确依赖，见[依赖说明](DEPENDENCIES.md)。下方构建命令包含历史运行名，已有输出不能覆盖；复现需建立独立候选并更新测试与源码对应关系。`--local` 仅校验现有文件，不执行综合、下载或 Flash 写入。
 
 
 <details>
-<summary>AWB 基线工程命令、约束与历史文件绑定（点击展开）</summary>
+<summary>AWB 基线工程命令、约束与历史文件绑定</summary>
 
 ## 工程与环境
 
-当前集成工程为：
+AWB 阶段基线的工程入口为：
 
 ```text
 qa/sc520cs_frame_awb_trial_20261016/
@@ -74,11 +74,11 @@ python scripts/test_current.py --iverilog-bin D:/iverilog/bin --full
 python scripts/verify_current.py --local
 ```
 
-该检查包含工程依赖和选定 bit。仅克隆公开仓库时，会报告未提供的本地依赖；公开模块回归仍可独立运行。
+该检查包含工程依赖和选定 bitstream。仅克隆公开仓库时，会报告未提供的本地依赖；公开模块回归仍可独立运行。
 
 ## TD 构建流程
 
-现有 bit 对应以下构建记录：
+现有 bitstream 对应以下构建记录：
 
 ```text
 syn_6 → run_route_11_gray_csa → final 时序与 CDC 查询
@@ -98,13 +98,13 @@ $q='qa/sc520cs_frame_awb_trial_20261016'
 
 综合脚本依赖前驱目录中的 `qa/sc520cs_ddr_100mhz_diff_trial/run_internal_pll_opt_gate.ps1`。实现脚本显式清除并加载 QA 时钟、DDR、I2C、AE 和 FIFO 约束；GUI 默认构建未必加载相同约束。引脚、工程默认 SDC 和 IP 配置均记录在源清单中。
 
-时序查询脚本依据实际实现网表追踪 packed 引脚名称。重新实现后，名称或结构可能发生变化；若保护检查失败，应重新确认对应逻辑与例外范围，再继续生成 bit。
+时序查询脚本依据实际实现网表追踪 packed 引脚名称。重新实现后，名称或结构可能发生变化；若保护检查失败，应重新确认对应逻辑与例外范围，再继续生成 bitstream。
 
-### bit 生成与版本绑定
+### bitstream 生成与版本绑定
 
 历史 `freeze_diag_sources.py` 固定绑定 `syn_6`。`run_closed_ae_bitgen.ps1` 还校验冻结输入、测试证据、旧候选及原有四个暂存路径，其默认参数属于历史前驱。生成新版本前，须在独立 QA 副本中更新相应绑定并重新验证。
 
-现有 bit 的生成命令记录如下，仅用于追溯：
+现有 bitstream 的生成命令记录如下，仅用于追溯：
 
 ```powershell
 & "$q/run_closed_ae_bitgen.ps1" -RouteName run_route_11_gray_csa -AuditPrefix final -BitgenRun run_bitgen_frame_awb_checked
@@ -112,17 +112,17 @@ $q='qa/sc520cs_frame_awb_trial_20261016'
 
 对应输出已经存在，脚本会拒绝覆盖。该命令不能直接作为新网表的自动发布步骤。`scripts/verify_current.py --local` 用于核对现有成果，不执行综合或实现。
 
-## 手动板测
+## 板级验证入口
 
-按板型、相机、线缆方向及官方流程核对连接，确认 bit 大小和 SHA 后，再进行受控 SRAM 加载。按键操作为：
+按板型、相机、线缆方向及官方流程核对连接，确认 bitstream 大小和 SHA-256 后，再进行受控 SRAM 加载。按键操作为：
 
 |操作|功能|
 |---|---|
-|短按|彩色 → 灰度 → 二值化 → Sobel|
+|短按|彩色 → 灰度 → 二值化 → Sobel 边缘检测|
 |长按约 1 秒|A 原 AWB → B 单位增益 → C 完整帧 AWB|
 
 长按释放不会附带短按事件。建议固定照明和相机位置进行 A/B/C/A 对照，每次切换后至少等待 20 帧，记录曝光、分支、增益及异常状态。已有观察见[板级测试记录](BOARD_VALIDATION.md)。
 
-Flash 独立启动需另行安排写入及断电测试；现有记录尚不包含该项验证。
+Flash 固化及独立冷启动由板级测试负责人单独验证，现有记录未提供该项通过证据。
 
 </details>

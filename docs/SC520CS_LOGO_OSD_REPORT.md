@@ -1,6 +1,6 @@
 # SC520CS Logo OSD 设计与验证报告（2026-10-17）
 
-Logo 候选在 AWB 阶段基线上接入官方“安路”图形，叠加于视频右上角，保留左上运行信息面板、四模式、AE 和 A/B/C 控制。
+独立 Logo 候选在 AWB 阶段基线上加入官方“安路”图形，显示于视频右上角，保留左上面板、四模式、AE 和 A/B/C 控制。像素叠加自检及 14 组继承回归最终通过；首轮 DDR 时序违例经物理优化修复，最终已建模 setup/hold 为 +0.106/+0.021 ns。后续已有上板成功反馈，完整板级验收仍待补。
 
 ## OSD 设计方案
 
@@ -24,17 +24,14 @@ Logo 使用官方 160×160 位图，放在 1280×720 画面的右上 `(1088,16)`
 |最终工具时序|setup/hold 余量 +0.106/+0.021 ns|只适用于已建模检查，覆盖率 98.88%|
 |实物观察|后续原检测报告已记录 Logo 基线上板成功的开发者反馈|现场加载 SHA-256 未独立确认，完整模式和连续运行稳定性验收待补|
 
-下列记录适用于 2026-10-17 Logo 候选构建阶段。随后[原检测报告](SC520CS_RED_TARGET_REPORT.md)登记了 Logo 上板成功反馈，未独立绑定现场加载 SHA-256；完整模式与持续运行验收仍待补。Logo 候选不包含后续红色区域检测。
+以下构建记录对应 2026-10-17。后续反馈登记于[原检测报告](SC520CS_RED_TARGET_REPORT.md)，现场加载 SHA-256 未独立确认。Logo 候选尚未包含红色区域检测。
 
 首次工具进程正常结束后，精确约束审查仍发现 DDR 时序违例。物理优化后已建模检查通过，相关失败轮次保留。时序与资源指标定义见[术语表](GLOSSARY.md)。
 
 
-<details>
-<summary>Logo 接口、历史测试、失败轮次与构建数据</summary>
-
 2026-10-17 从阶段演示基线 `qa/sc520cs_frame_awb_trial_20261016` 建立独立候选 `qa/sc520cs_logo_osd_trial_20261017`，接入官方安路图形 Logo。室内 AE、A/B/C 白平衡、短按/长按及既有修复保留，暂停画质调参。构建记录未包含硬件下载或 Flash 写入，生成时完整实物验收为 **not tested**。`release/current.json` 仍指向原阶段演示基线。
 
-## 实现与接口
+## 素材来源与像素接口
 
 工程入口：候选内 `lab_ex1_mipi_hdmi/td_project/camera_to_dsi_display.al`；顶层 `design_top_wrapper`；PH1P35MDG324、Speed -3。71 条工程源记录及 SHA-256 见候选 `logo_source_manifest.csv`。
 
@@ -53,7 +50,7 @@ Logo 使用官方 160×160 位图，放在 1280×720 画面的右上 `(1088,16)`
 
 继承源码比较仅有顶层连接和 .al 清单两项变化，另新增 OSD 源文件；`source_delta.json`、`logo_source_manifest.csv` 和 `LOGO_CONTRACT.md` 记录边界。引脚、PLL、DDR/MIPI/HDMI IP、基线约束字节不变；不改默认 RGB/A。
 
-## 仿真与回归
+## 叠加自检与继承回归
 
 Logo 独立自检使用 ModelSim 2020.3 Intel FPGA Starter Edition（版本见候选 `tmp_logo_modelsim/version.txt`），实际编译 `tb_logo_overlay.v` 和新增 RTL。参考数据 `logo_golden.mem` 独立从官方原素材提取，期望坐标由测试刺激给出，并逐周期比较实际输出。
 
@@ -61,7 +58,7 @@ Logo 独立自检使用 ModelSim 2020.3 Intel FPGA Starter Edition（版本见�
 
 受限环境 Icarus 编译以 0xC0000005 异常退出；普通宿主编译成功。耗时 Icarus Logo 运行在完成前停止，见 `logo_host_incomplete.txt`，不记为通过。最终采用上述 ModelSim 自检；重跑命令为 `powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_logo_osd_trial_20261017/run_logo_modelsim.ps1`。
 
-旧回归首次有两处测试配套问题：缺少 `before/uii2c.v` 历史对照，及旧按键测试假设按下即发短按事件。已在候选内补齐原对照并将旧测试改为短按释放后检查，保留失败证据；未修改功能 RTL。A/B/C 手势专项和修正后的按键集成均通过。14 组 Logo 候选回归最终通过，原始两项 harness 失败仍保留在 logo_regression_status.txt，并由 functional_suite_status.txt、key_final_status.txt 的重跑结果解决。
+首次继承回归遇到两项测试配套问题：`before/uii2c.v` 历史对照缺失，旧按键测试又把“按下”当作短按事件触发点。候选内补齐原对照，并改为短按释放后检查，功能 RTL 未改。修正后的按键集成和 A/B/C 手势专项通过，14 组回归最终通过。首次失败保留在 logo_regression_status.txt，重跑结果见 functional_suite_status.txt、key_final_status.txt。
 
 2026-10-17 Logo 候选实际执行的继承回归：
 
@@ -76,7 +73,7 @@ Logo 独立自检使用 ModelSim 2020.3 Intel FPGA Starter Edition（版本见�
 |原 AWB 数值/门级短帧回归|pass；awb_arithmetic_full_pure_evidence.txt、awb_gate_short_evidence.txt；前者仅替换已验证的 divider 数值模型，后者为实际门级 divider/TD RAM 边界；后者保留 425 条既有 IP 端口/容量等仿真告警，未记为告警清零|
 |编译源与综合输入绑定|pass；logo_test_binding_result.txt、logo_fresh_test_bindings.json，61 项编译记录（5 个测试目录）及全部综合输入 SHA-256 一致；Logo 自检绑定见 logo_modelsim_evidence_binding.json|
 
-## 构建、时序与灰码预算
+## DDR 时序违例与物理优化
 
 工具 TD 6.2.168116。全新 `syn_1` 从实际 71 条清单执行 read_design→opt_rtl→opt_gate，退出 0 并存在完成标记；输入 SHA-256 为 `syn_1_input_hashes.json`，完整日志 `syn_runner.txt`。首轮资源 LUT6=16715、REG=17434、Slice=18385 (86.66%)、ERAM=42、DSP=17；这是 route.area 的最终物理统计，不能与综合阶段不同口径的 LUT 计数混用。
 
@@ -92,7 +89,7 @@ Logo 独立自检使用 ModelSim 2020.3 Intel FPGA Starter Edition（版本见�
 
 继承的 HDL-5369、未连接/未驱动、RAM_STYLE 等工具告警继续披露，完整分类见 `logo_synthesis_warnings.txt`。122 条综合告警中未出现 Logo 模块引用；不将工具退出 0 描述为告警已消除。PLL/硬 PHY/加密 DDR、外部 I/O 延迟与板级验证覆盖不足仍是边界。
 
-## bitstream 与实物测试
+## 配置文件与板测计划
 
 2026-10-17 已完成 checked bitgen，退出 0。生成时登记为尚未上板的 SRAM 候选，后续板级反馈见前述记录：
 
@@ -102,13 +99,13 @@ Logo 独立自检使用 ModelSim 2020.3 Intel FPGA Starter Edition（版本见�
 - bitgen 当场重载精确约束并重算时序：setup/hold WNS **+0.106/+0.021 ns**，TNS=0；建模覆盖率 **98.88%**。详细见 `run_bitgen_logo_checked/bitgen_sta_status.txt`、`bitgen_sta_all.timing`、`bitgen_check_timing.txt`。
 - 资源：LUT6 16715、REG 17434、Slice 18385/21216（86.66%）、ERAM 42、DSP 17。原阶段基线物理报告为 LUT6 14297、REG 17254、Slice 16703、ERAM 42、DSP 16；该阶段增加 2418 LUT6、180 REG、1682 Slice、1 DSP。统计来自同一工具的 route.area。
 
-裕量较小，且覆盖率不足 100%，只记为建模检查通过，不作为板级或外部 I/O/PLL/PHY/DDR 全覆盖签核。
+时序覆盖率不足 100%，这些指标仅适用于已建模路径；外部 I/O、PLL、PHY 和 DDR 的硬件行为仍需板测。
 
 上板步骤见候选 `BOARD_TEST_GATE.md`：先核对候选 SHA-256，再由板级测试负责人按现有流程加载 SRAM；复位 RGB/A，核对右上 Logo、透明区和左上面板；短按循环四模式，长按 A→B→C→A（每档至少 20 帧，建议 3 秒），验证长按释放无额外短按；各模式复位并完成 20～30 分钟连续运行稳定性，保存绑定 SHA-256 的完整画面视频。上述完整验收项目在构建完成时均为 **not tested**；其后的 Logo 上板反馈单独登记，不替代完整验收。
 
 阶段基线与成功 bitstream 保留，回退 SHA-256 `794946D5664CA984C8033C62786BD026BE0DF223317D808743B6A2D367E83371`。历史无间隙 SOF FIFO 丢字反例和异常帧恢复限制继续保留；该阶段不扩大这部分验证结论。在 Logo 候选中，红色区域检测扩展项尚未实现，不统计竞赛通过条目数。
 
-## 保护与复现
+## 原文件保护与构建记录
 
 候选 `protected_before.json` 对原候选及 project/vendor 全部文件建立了大小与 SHA-256 快照；暂存索引见 `staged_before.txt`。末次复核 `protection_after.json`：10900 个文件大小与 SHA-256 全一致，Git 暂存索引完全一致；`baseline_verify_current.txt`：394 项、0 错误。未覆盖成功 bitstream，未修改 project/vendor，未改 release/current.json，未提交或混入四项历史暂存成果。
 
@@ -124,5 +121,3 @@ powershell -NoProfile -ExecutionPolicy Bypass -File qa/sc520cs_logo_osd_trial_20
 ```
 
 运行脚本拒绝覆盖已有构建目录；复现时使用新的独立候选/运行名。首轮审查的非零退出是已记录的真实时序失败。
-
-</details>

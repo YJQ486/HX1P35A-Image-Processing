@@ -1,8 +1,8 @@
 # 项目验证报告
 
-本报告汇总截至 2026-10-19 的源码实现、模块仿真、工具构建、板级观察和最终验收状态。各类证据独立评价，**不以模块仿真或已建模时序结果替代板级稳定性和独立启动验收**。
+截至 2026-10-19，各候选已有相应源码、模块测试和工具构建记录；C-AWB、Logo、原红色检测及 `stable` 已有不同范围的上板反馈。原红色候选的边界异常为已确认失败，最终功能组合、20～30 分钟连续运行和 Flash 独立冷启动仍未完成验收。下表按证据层级列出结论，随后给出各版本的测试规模与来源。
 
-## 验证层级汇总
+## 总体验证状态
 
 |层级|状态|依据与限定范围|
 |---|---|---|
@@ -25,9 +25,9 @@
 |画面偏暗核查|初始化表等与本地官方基线一致；实际原因未确定|现场实际分支、曝光请求、读回和固定条件对照，见[亮度核查](SC520CS_BRIGHTNESS_BASELINE_AUDIT.md)|
 |Flash 固化与独立冷启动|`not tested`，尚无通过记录|Flash 固化及脱离电脑的冷启动测试|
 
-板级观察仅支持所记录的现象和条件。历史 `not tested` 按记录日期解释，后续反馈独立登记，不覆盖原始日志。2026-10-19 本地新增[暗红后继报告](SC520CS_DARK_RED_REPORT.md)：14 组继承回归及 11 项专项测试通过，已建模 setup/hold 为 +0.013/+0.021 ns，板级召回率、误报和持续运行仍为 `not tested`。来源为该候选 `RELEASE_DARK_RED.md` 和 `dark_release_summary.json`，未调整发布基线。
+[暗红后继](SC520CS_DARK_RED_REPORT.md)的结果来自本地 `RELEASE_DARK_RED.md` 和 `dark_release_summary.json`：14 组继承回归、11 项专项测试通过，已建模 setup/hold 为 +0.013/+0.021 ns；板级召回、误报和持续运行仍为 `not tested`，发布基线未调整。历史状态保留其日期，后续反馈另行登记。
 
-## 验证层级与判定范围
+## 如何理解各阶段结果
 
 ![模块仿真、工具构建、实物测试、持续运行与独立启动验收](diagrams/validation_steps.png)
 
@@ -60,13 +60,10 @@
 - 部分仿真替代了厂商模块或注入了信号，不能表述为完整加密 DDR、HDMI 底层硬件仿真。
 - 工具告警和失败运行仍在原始记录中；“重新综合”不等于“零告警”。
 
-## 证据索引
+## 历史数据与查阅入口
 
-[Logo 报告](SC520CS_LOGO_OSD_REPORT.md)、[原检测报告](SC520CS_RED_TARGET_REPORT.md)和[修复报告](SC520CS_RED_STABILITY_REPORT.md)分别给出算法、测试和构建来源；[板测记录](BOARD_VALIDATION.md)用于登记真实结果。以下按阶段保留测试数量、指标、SHA-256 和失败边界。2026-10-19 文档复核仅核对现有文件，未重新运行仿真或构建。
+[Logo 报告](SC520CS_LOGO_OSD_REPORT.md)、[原检测报告](SC520CS_RED_TARGET_REPORT.md)和[修复报告](SC520CS_RED_STABILITY_REPORT.md)分别给出算法、测试和构建来源；[板测记录](BOARD_VALIDATION.md)用于登记真实结果。后文保留测试数量、指标、SHA-256 和失败记录。2026-10-19 的文档复核仅检查已有文件，未重新仿真或构建。
 
-
-<details>
-<summary>各阶段历史验证数据与来源</summary>
 
 ## 2026-10-17：独立红色区域检测候选
 
@@ -116,7 +113,7 @@ bitstream：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/sc520cs
 
 2026-10-16 仓库整理未改变 RTL、IP、ADC、SDC 或 TD 工程输入，未执行硬件下载或 Flash 操作。
 
-## 文件与功能检查
+### 文件与功能检查
 
 |项目|状态|结果|
 |---|---|---|
@@ -142,7 +139,7 @@ bitstream：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/sc520cs
 
 首次沙盒执行中编译器异常退出，退出码为 3221225477；失败日志已保留。改用本机执行后，上述 7 组测试全部通过。
 
-## 构建、资源与时序
+### 构建、资源与时序
 
 现有构建记录为 `syn_6 → run_route_11_gray_csa → final 查询 → checked bitgen`。工程输入与原生源清单一致，选定 bitstream 的来源、大小和 SHA-256 已复核。此次检查未重新构建。
 
@@ -165,13 +162,13 @@ bitstream：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/sc520cs
 
 现有告警包括 SYN-5013 × 789、SYN-5025 × 3、加密 MC 中的 HDL-5369 latch × 1、SYN-5065 × 1，以及 PHY 时钟局部布线与路由告警。自研模块名称过滤下未发现新增告警。完整工程告警仍按原记录保留，摘录见 [historical_audit_excerpt.txt](../release/historical_audit_excerpt.txt)。失败的 TimingHigh 运行及负时序试验日志保存在本地 QA。
 
-## 仿真覆盖范围
+### 仿真覆盖范围
 
 [历史测试清单](../release/historical_test_summary.csv)包含 19 组测试及独立负例。原厂 divider 的真实门级测试覆盖短帧；720 行原 AWB 测试使用经过门级比对的非恒定算术模型，新完整帧 AWB 的除法使用实际 RTL。接线层测试对部分 AWB 和 PLL 信号进行了注入。
 
 因此，这些结果不等同于整个加密 ISP 的完整门级 720 行验证。历史无间隙 SOF 下的 FIFO 反例，以及异常帧不保证无损恢复的限制仍然保留。
 
-## 板级状态
+### 板级状态
 
 |项目|状态|说明|
 |---|---|---|
@@ -188,7 +185,7 @@ bitstream：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/sc520cs
 
 ## 2026-10-17 红色区域稳定性独立修复
 
-原红色候选已有板级反馈，视频记录了边缘包围框异常扩展，不构成连续运行稳定性通过。独立修复候选 `sc520cs_red_stability_trial_20261017` 仅替换检测模块，密块区域筛选及有界迟滞；14组既有回归、新检测/边界/迟滞与Logo/叠加自检、clean综合、该候选布局布线及精确约束复核和checked bitgen通过。最终setup/hold为 +0.100/+0.020 ns，覆盖98.95%；未放宽原时钟或预算。该候选构建完成时，上板、20分钟实测、Flash和无PC冷启动为 not tested；2026-10-18 上板反馈单独列于状态汇总，不作为完整验收。该构建阶段无硬件下载或 Flash 操作，原候选与成功bitstream保留，详见[稳定性修复报告](SC520CS_RED_STABILITY_REPORT.md)。
+原红色候选已有板级反馈，视频记录了边缘包围框异常扩展，不构成连续运行稳定性通过。独立候选 `sc520cs_red_stability_trial_20261017` 仅替换检测模块，加入密块区域筛选和有界迟滞。新检测、边界、迟滞、Logo 与叠加自检及 14 组既有回归通过；重新综合、布局布线、精确约束复核和 checked bitgen 完成。最终 setup/hold 为 +0.100/+0.020 ns，覆盖率 98.95%，原时钟与预算未放宽。该候选构建完成时，上板、20分钟实测、Flash和无PC冷启动为 not tested；2026-10-18 上板反馈单独列于状态汇总，不作为完整验收。该构建阶段无硬件下载或 Flash 操作，原候选与成功bitstream保留，详见[稳定性修复报告](SC520CS_RED_STABILITY_REPORT.md)。
 
 |检查项|状态|证据/下一步|
 |---|---|---|
@@ -197,7 +194,6 @@ bitstream：`qa/sc520cs_red_target_trial_20261017/run_bitgen_red_checked/sc520cs
 |修复候选实物与20分钟稳定性|not tested|板级测试负责人按修复候选 SHA-256 执行并补充记录|
 |Flash及无PC冷启动|not tested|该构建阶段未执行硬件下载或 Flash 写入，由板级测试负责人单独验证|
 
-</details>
 
 
 ## 2026-10-19 暗红独立后继

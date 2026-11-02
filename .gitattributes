@@ -1,7 +1,2 @@
-# Preserve frozen source/test hashes byte for byte across Windows and Unix.
+# Keep source bytes unchanged so release/final.json hashes stay valid on every platform.
 * -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
-# Keep pre-existing staged work under its original text normalization contract.
-docs/SC520CS_LINK_SIM_REPORT.md text
-sim/custom/run_sc520cs_link_iverilog.ps1 text
-sim/custom/sc520cs_link_iverilog_evidence.txt text
-sim/custom/tb_sc520cs_processing_link.v text

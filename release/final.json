@@ -1,0 +1,453 @@
+{
+  "name": "HX1P35A SC520CS real-time image processing, final submission",
+  "date": "2026-11-02",
+  "bitstream": {
+    "file": "sc520cs_sketch3_sram_20261102.bit",
+    "bytes": 1789539,
+    "sha256": "A90F738A57CAC2E7DFB36A53A580AFFEFF60E7CEA4CFA3D2FEDE2BEDDF86BAFF",
+    "load": "SRAM test image; write to Flash manually for cold boot",
+    "distributed": false,
+    "note": "contains vendor IP; kept locally"
+  },
+  "device": {
+    "family": "Anlogic PH1P",
+    "part": "PH1P35MDG324",
+    "speed": "-3",
+    "board": "HX1P35A",
+    "tool": "Tang Dynasty 6.2.168116"
+  },
+  "top": "design_top_wrapper",
+  "camera": "SC520CS, MIPI CSI-2 2-lane RAW10",
+  "video": "1280x720 @ 60 Hz HDMI",
+  "modes": [
+    "color",
+    "gray",
+    "pencil sketch",
+    "Sobel"
+  ],
+  "resources": {
+    "lut6": 17027,
+    "reg": 19968,
+    "slice": 18310,
+    "eram": 61,
+    "dsp": 17
+  },
+  "resource_totals": {
+    "lut6": 21216,
+    "slice": 21216,
+    "eram": 108,
+    "dsp": 40
+  },
+  "timing_ns": {
+    "SWNS": 0.104,
+    "STNS": 0.0,
+    "HWNS": 0.02,
+    "HTNS": 0.0
+  },
+  "gray36": {
+    "count": 36,
+    "budget_ns": 7.2,
+    "min_slack_ns": 5.858
+  },
+  "remaining_violations": 0,
+  "checker_changes": [
+    "packed-LUT6 exemption for the exact VSYNC/S_fifo_rst INIT A=ccfccccc B=0000ffff, vendor PH1P_PHY_LSLICE proof sim_vsync_fiforst_packed 256 vectors 0 errors",
+    "other new u_mode_key packed-LUT6 INITs are accepted only after an automatic vendor PH1P_PHY_LSLICE sweep (prove_packed_lut6) shows QA/QB independence",
+    "review_current_i2c_clock.py follows whichever single LUT output depends on raw SCL to the same-clock O_cam_scl FF",
+    "review_implementation.py accepts CAM_I2C_FABRIC local wires 9..17 (reviewed maximum 17; 14 in the cartoon route, 15 in the first two sketch routes, 14 in this one) only with the structural review passing",
+    "baselines sc520cs_dual_indoor_trial_20261020, sc520cs_red_qualification_trial_20261020 and sof_guard_build_20261031 were removed on 2026-10-31; review_current_i2c_clock, review_implementation and freeze_check now compare with 61FD7FE0 (hdmi_resync_eram_build_20261031), which had matched those baselines exactly",
+    "audit_i2c_mapping.py accepts a ready register whose D is a full LUT6 (own feedback plus counter bits) only through prove_ready_lut6: exhaustive 2^18 counter values x own state 0/1 must equal own OR counter>=threshold; four flipped-INIT negative tests were rejected"
+  ],
+  "board": {
+    "sram": "2026-11-02: pencil sketch mode reviewed on board and accepted by the developer; the other acceptance items in docs/BOARD_TEST.md were not recorded for this image",
+    "flash_cold_boot": "not recorded for this image"
+  },
+  "sources": [
+    {
+      "path": "project/lab_ex1_mipi_hdmi/td_project/al_ip/ChipWatcher_mipi/ChipWatcher_mipi.xml",
+      "sha256": "7F4132221716881B3D0CE8C2D705F3F282C0826B48544B9CA5F088C03660DEF8",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/td_project/camera_to_dsi_display.sdc",
+      "sha256": "54EB1455E1C938B2CCA47641C789AE0F475E43BC318421C165DDC4D6F280D6D4",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/constraints_source/pin.adc",
+      "sha256": "3FE35EE240B29B9FE428EC98850F213FBB2236DCA673B9C0CC0BFB56B6A16C6A",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/I2S_receiver.v",
+      "sha256": "08904598B42C2E1A4836CD9FB3293BC6C791EA2F79E35C7663A33127DC97F47B",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/audio_arc_calculate.v",
+      "sha256": "552D8D86AFD237666B30AE08F31247808E89EB024EFDE5EFC670B82EB617A7DC",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/awb.v",
+      "sha256": "63229F714D7EF8DDF39E7D05C147A77C7139CE93471982771751DC786180B84C",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/design_top_wrapper.v",
+      "sha256": "94762DBF74C93E5DBB0AEA35AB42CE32809EC87C7B5764B4EAC36BABDAE765C3",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/hdmi_1_4b_transmitter_core_wrapper.enc.v",
+      "sha256": "867E0B0BDD874BC383D00918C9E1BE3FE01EDF41F343B6A0D73E262776596A63",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/hdmi_mixer.v",
+      "sha256": "B0D8D5D549604005B0CFE2B03778F55CF1F3DD12E3640AF230D5E3DF519DC0D0",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/hdmi_phy_warpper.v",
+      "sha256": "416B082B0987001BDBC0A7E20A557CB8FB1DCA34E25DC881E6D28A8CB3CF4300",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/hdmi_tx.v",
+      "sha256": "7C0116009D9A0A6EE7A640640D3AE1E6D379F188CFABB9FE7ED15B0AF439DDF9",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/csi_unpacket_2lane.v",
+      "sha256": "FE1008432A7A2EB019B2D91EDB22D21C685828BCE1B8986BD84862ED0C7AFED5",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/data128_96/data128_96.v",
+      "sha256": "B6ACCEB73CC76058D4AFE6EC593360BAE6701646FDDA780A9264ADA3BEFD5318",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/data96_128/data96_128.v",
+      "sha256": "7D53D2A29F9B22FB6746C50F5D781E6BE76F8F1C9C4793D1DF289D2D68EBEA4B",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/bilinear_interpolation.v",
+      "sha256": "53A4FC3DEA805D59CEE9BDAB1A090C26C03EB555AB612A1A4698D810C1991BAF",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/blk_mem_gen_demosaic/blk_mem_gen_demosaic.xml",
+      "sha256": "9488F4F3AF1D7CD60574A6A115F6FE78416432810231EE50DE51E27C844A0570",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/blk_mem_gen_zhenghe/blk_mem_gen_zhenghe.xml",
+      "sha256": "48EDBC23F5A159C7174D46CFB3F71D57726553D99EE9C7095D3913ECB3B7A6EF",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/demosaic.v",
+      "sha256": "95FF3EAA0E99FD1DBE63C153164E36FAA1A97B19D071E4A0B0BB3936287F22D4",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/line_buffer_demosaic.v",
+      "sha256": "57D2626EF83F555D027CC442FAE0959A916CF1B0939C0115AAA9D414745F94C7",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/mipi_to_raw_converter.v",
+      "sha256": "B77E678034AF9968D0969655F403CAC3B992412B109DBA889E8CCB3F6F224975",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/raw_matrix_3x3_buffer.v",
+      "sha256": "28F19502F5A70B48E9BDEEADDCB84500052B7BD0C6E15B4DA1EA9899265577C3",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/demosaic_4x_2_0/zhenghe.v",
+      "sha256": "ABCC6447EA9C47185B0E93B5ACAEF001F19E5FF99D0F80CC6E4CB4BB852A4BDD",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/isp_top.v",
+      "sha256": "CC2F1D20B0DFBC559547EA696D090B5DF0DCA24EDA74CA0DAB96398998C38C2C",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/raw10_unpacket_2lane.v",
+      "sha256": "83F89D7F8E2B19322A7F6A8DDC0CAE64FCBD83FED6B742C10F5D2339F59D30FD",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/isp/uial2axis.v",
+      "sha256": "BF3B6FED37DB8B340875CF598CC42D70610442DA852BB83C1D04A972981E4AEE",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/key_remove_shakes.v",
+      "sha256": "8832F59E7BA94BFB8CF31E4F5A772EF7177D5257A5A2532D53CBFA1D9B7F5CD9",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/lane_lvds_10_1.v",
+      "sha256": "DE9529321354F04837E051D0EC1681CF44783D4BE3284703A788E081147500BC",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mc_to_user_interface.v",
+      "sha256": "690E637A9564B23EC1BFC865EC70B63D729B47DAF642446CABA34A197F3CF848",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/byte_aligner.enc.v",
+      "sha256": "25A3581A512AD89BB43FED2758E32CE089CCCA29DEC445EF9B71DA36423F217C",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/byte_aligner_wrapper.enc.sv",
+      "sha256": "D98AE007D77AE262C0C34B53586A5AA8A840EDC7DCDBFCC9091EB89CC68A6776",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/channel_aligner.enc.v",
+      "sha256": "3824E224A0B0B4E2B37CA4AC5533002221BCAEC2694EE86DE5C0F1A104DFFEBB",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/channel_aligner_wrapper.enc.sv",
+      "sha256": "C26AEF5AEB40A767633EFA21BE4E5E59C25B91E79D0EA1F7C05D70A958771846",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/hs_detect.enc.v",
+      "sha256": "BBF7A362273291A874793ABBBD027A8D668C6281A4DD81240EAE45572D5E5C92",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/mipi_dphy_rx_ph1p_mipiio_wrapper.sv",
+      "sha256": "86B796060B0A133D1D10FC659B85C73EBFC98EBFA51904860A89AD5BDB68FE5A",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/mipi_dphy_rx/ph1p_mipiio_rx_wrapper.v",
+      "sha256": "F957019576D22A8322889AF73F8BFEE07F46006959F9EFCCA0595BC8FA3234AE",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/ph1p35_ddr/ddr2/ddr2.xml",
+      "sha256": "1C0928264DCBC2217F7C1015042FC61E02BD444B727EAC8B2E8F9BC4B89FC720",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/ph1p35_ddr/ddr2/src/adc/ddr2.adc",
+      "sha256": "9B579AEF1DD260789B02B7012CA9689AF6280EC9AF530A1A946C5AC0A8C43E81",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/ph1p35_ddr/ddr2/src/sdc/ddr2.sdc",
+      "sha256": "ADB6317927DFD09095073CAD40BE8E63D39EA3D941B4C790F2F483B1AED428D6",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/ph1p35_ddr/ph1p35_324_ddr_wrapper.v",
+      "sha256": "49C1449C734534BD40A9992764547BD0D9187EF780D0C8351CB58B077E4BED79",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/signal_delay.v",
+      "sha256": "B7A8156BC59BEE5DE2C1AF20CB31079388ACE1F4E767A18288A7DFF8BAE3D5FD",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics500_cfg/SC500GainTbl.v",
+      "sha256": "574A37980C5353C8079AE870B0B60DF3429B78B301DC58FC97954B9FB79FBFD3",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics500_cfg/uicfgcs500.v",
+      "sha256": "E41DA183EBA57AF58FDEB0152AD5AC7A5DB7C45332C7B194EC2821D4BC121E52",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics500_cfg/uics500regAE.v",
+      "sha256": "F37E71B95B8AAA8F1A4C3BC7A38492D15C5FBEA076D8564C3498F54FACB8996F",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics500_cfg/uii2c.v",
+      "sha256": "FEDD5946878A647EB5F0C7651D605F7B80D2DCA1DE87F87699DD7D353FF996B6",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics520_cfg/SC520GainTbl.v",
+      "sha256": "45C6E2867F9FCAD17EDDEB55ABAD62ED423663B03A0BE26B4E41FC83081C8B68",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics520_cfg/uicfgcs520.v",
+      "sha256": "5FC8F1AE3B628055C88F4E37477E8047D6CE5DE32AB66BEE74A04DF9E62A4481",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics520_cfg/uics520reg.v",
+      "sha256": "3F05B138D91DBCB0093398488DC48EE3FD60E892698ADB3C21ED61DDA60CB572",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics520_cfg/uics520regAE.v",
+      "sha256": "C8930145298088FF75C3F0130B40E3F8FA801B2D53653A4BC7FDA4BE5BCE4403",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics520_cfg/uics520reg_720p60.v",
+      "sha256": "8C871586E9D2BF46F245F161F925AB1D811AE647D3089C1EAF8FA9CE5C8F48C7",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uics520_cfg/uics520reg_full_2560x1920_30.v",
+      "sha256": "162F85E0F314B1FCA4ED9577AABE9EF8B426B17DDE06E732AA2EBB61BE8AB8EC",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/uiisp_beta/ae_set.v",
+      "sha256": "230FFC2722B88DC585E5164022870F9B22D86F68D3F002C6A5B7A8968ADBBE74",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/video_in.v",
+      "sha256": "975F0B249AA8446052DC7482836EAAF6C41CFAB99F63983988E4130D8AD83E48",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/video_out.v",
+      "sha256": "85D3D13EEA63E72B33EE77B2C7892D79A71121982A408146A3E8E59B381ED0BA",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/hdl_source/vtc/uivtc.v",
+      "sha256": "C7DEAEA83EA04FAE9CAAF34644FE089AEBA6DC54DEE26C377AEF1DF44648E4DB",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/ip_source/PLL/PLL.xml",
+      "sha256": "CDD3123C372C914EE1F71C7EDE955DC572EBA871EBB5752D0FF3220D16B89707",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/ip_source/blk_mem_gen_awb_delay_signal/blk_mem_gen_awb_delay_signal.xml",
+      "sha256": "2A4036C207EE38A5CC415E9DF729333F00B82072C774AC911EB71A8855BCD423",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/ip_source/divider/divider.ipc",
+      "sha256": "6C8D11F165ACA0D4818325452B554EF11C11FF618E2E99473B50AF32745AFA62",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/ip_source/w128_d512_fifo/w128_d512_fifo.tcl",
+      "sha256": "D8C23F200B61011541161D6F7A3AFC73958DEFA23B46D11039C66F2E0E555235",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/ip_source/w128_d512_fifo/w128_d512_fifo.xml",
+      "sha256": "168018C547DD95D242196199BDFB35D426265AD0DF0A39288D23E0C4C8A4BDFC",
+      "published": null
+    },
+    {
+      "path": "project/lab_ex1_mipi_hdmi/user_source/ip_source/w155_d512_fifo/w155_d512_fifo.xml",
+      "sha256": "C16F1A475E2C0C61E4D9F05598A753086AC4F95BB223997E2C686557B30285EA",
+      "published": null
+    },
+    {
+      "path": "project/rtl/custom/custom_ae_frame_stats.v",
+      "sha256": "359AE453603518B0A3F38639FE7B3AF4F67D17B4DC4E8125A52A0A2554E18CDD",
+      "published": "hdl/custom_ae_frame_stats.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_ae_overlay.v",
+      "sha256": "E97EC9925A625EA81E2474725080F41DE57DDFE86127BDF72723A28847D88AAC",
+      "published": "hdl/custom_ae_overlay.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_awb_sof_aligner.v",
+      "sha256": "567CFC61CF7127C9A439238453927DEB298D9EDA4FF0D0FC68A1E9E64F668940",
+      "published": "hdl/custom_awb_sof_aligner.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_closed_loop_ae.v",
+      "sha256": "19B79185F22822A81F2B8EA1BC13C13B8F141A962763199FE873BD7B60D37410",
+      "published": "hdl/custom_closed_loop_ae.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_csi_sof_events.v",
+      "sha256": "3315CE0C8CDAB6E67D842B653AD3D9460473E938033AF9A0399DA5A2BC80061E",
+      "published": "hdl/custom_csi_sof_events.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_diag_overlay.v",
+      "sha256": "1970C81CD020A1B7F9807C58A91F6BD29FB37BDA2C14E884989B37B63F29B117",
+      "published": "hdl/custom_diag_overlay.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_diag_snapshot_cdc.v",
+      "sha256": "796511F823A194FC430CF6FE61A1B7A6266D71A06B0D9BC4C08C44CA023378C0",
+      "published": "hdl/custom_diag_snapshot_cdc.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_frame_awb.v",
+      "sha256": "9A452651608C03D4AD63218A930388749206C5C9FE3EE40C5A9ED7E03E1C7F8D",
+      "published": "hdl/custom_frame_awb.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_gray_threshold.v",
+      "sha256": "775C56A4DA935AFABC68AA9C113504EFC4A72750623F26260FBE58C605181FAE",
+      "published": "hdl/custom_gray_threshold.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_key_mode_request.v",
+      "sha256": "8C9583BAFA6DF296374C39678280F73A4C71702F60F6252BBAD8AAD2E9EFA065",
+      "published": "hdl/custom_key_mode_request.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_logo_overlay.v",
+      "sha256": "6852F2AD0D9E62F8FF54011FBCBA7ED207816B477396749AA0CA256C6783BDFE",
+      "published": "hdl/custom_logo_overlay.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_processing_top.v",
+      "sha256": "C7B80E3C39548A5F9147F23E8DC71B51C22B022E3A7C1C05D68EF7B1B31B6199",
+      "published": "hdl/custom_processing_top.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_red_detector.v",
+      "sha256": "AB287E0DB7C632FD77DF91885052E76B03EDCBE13A6F935882AF34EC450B334B",
+      "published": "hdl/custom_red_detector.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_red_overlay.v",
+      "sha256": "811905C0FBFC3AEEADEF85802D7C4916FE9D49140C0665F7DD352D273F80ACB7",
+      "published": "hdl/custom_red_overlay.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_rgb_to_gray.v",
+      "sha256": "BA79D03B7F139044E114899793C70DA51D74AADDFA3370103FE5D6D74B6162DD",
+      "published": "hdl/custom_rgb_to_gray.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_sobel_4px.v",
+      "sha256": "D28AA84807EC272445A304ABDF141D7E6464E05FF83EFB3359863B078B594E99",
+      "published": "hdl/custom_sobel_4px.v"
+    },
+    {
+      "path": "project/rtl/custom/custom_logo_rom.hex",
+      "sha256": "FCD45773D58E3386F49A81E4CBEC47C0873D5862C392F9944C17BC4CB8FC3E8E",
+      "published": null,
+      "regenerate": "scripts/make_logo_rom.py"
+    }
+  ]
+}

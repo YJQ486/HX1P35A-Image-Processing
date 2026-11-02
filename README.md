@@ -1,111 +1,69 @@
-# HX1P35A / SC520CS 实时图像处理工程
+# HX1P35A 实时图像处理系统
 
-本工程在 HX1P35A FPGA 上完成 SC520CS 摄像头采集、实时图像处理、DDR 帧缓存和 HDMI 显示，输出有效分辨率为 **1280 × 720**。支持彩色、灰度、二值化和 Sobel 边缘检测，并在独立后继版本中加入“安路”Logo、红色区域框选和文字标注。
+基于安路 HX1P35A 开发板（PH1P35MDG324）的实时数字图像处理系统。SC520CS 摄像头经 MIPI CSI-2 输入，FPGA 完成去马赛克、白平衡、图像处理和目标检测，经 DDR2 帧缓存后以 1280×720@60 Hz 输出到 HDMI，并叠加安路 Logo、状态面板和检测框。
 
-仓库提供自研 Verilog、模块测试、检查脚本和工程说明。完整摄像头 bitstream 的构建还需要未公开的厂商例程、IP 及对应本地修订；bitstream 和原始视频也保留在本地。可直接校验仓库源码并运行相应模块测试，完整工程的恢复条件见[依赖说明](docs/DEPENDENCIES.md)。
+## 功能
 
-本文的功能与测试状态依据截至 2026-10-19 的记录。`release/current.json` 保留 AWB 阶段演示基线，后续候选各有独立报告。
-
-## 功能与操作
-
-|功能|使用方式|已有结果|
+|功能|说明|操作|
 |---|---|---|
-|摄像头采集与显示|SC520CS → FPGA → HDMI|有历史视频和上板反馈，最终加载文件仍需与现场记录对应|
-|四种显示模式|短按模式键，依次切换彩色 → 灰度 → 二值化 → Sobel 边缘检测 → 彩色|已有源码、仿真和历史演示，拟验收候选的逐项板测待补|
-|自动曝光（AE）|根据画面明暗调整曝光和增益|已集成，室内偏暗原因尚未确定|
-|白平衡（AWB）对照|长按约 1 秒，依次切换 A → B → C → A|C 已有上板观察，与 A 接近、可能略好；偏色仍在|
-|Logo 与运行信息|右上显示“安路”图形，左上显示状态面板|Logo 候选已有上板成功反馈，完整验收待补|
-|红色区域检测|黄色包围框和 `RED TARGET` 标签|原算法曾出现贴边异常扩展；修复版有工具结果和上板反馈，实际改善与长期表现待补记录|
+|视频采集与显示|SC520CS RAW10 → ISP → DDR2 帧缓存 → HDMI 1280×720|上电自动运行|
+|四种显示模式|彩色、灰度、铅笔素描、Sobel 边缘检测|短按模式键（B9）循环切换|
+|铅笔素描|白纸底，物体轮廓为黑色笔画，暗处叠加灰色阴影|第 3 个模式|
+|自动曝光（AE）|帧统计 + 闭环调节传感器曝光和增益，室内主体优先|自动|
+|白平衡 A/B/C|A：原 ISP 白平衡；B：单位增益对照；C：整帧灰度世界|长按模式键约 1 秒循环切换|
+|红、蓝目标检测|按颜色和区块密度找出主要红色、蓝色区域，画框并显示 `RED TARGET` / `BLUE TARGET`|自动|
+|OSD|右上角安路 Logo；左上角 AE/AWB 状态面板|自动|
+|复位|C7 复位整个系统，恢复彩色模式和白平衡 A|按 C7|
 
-A 使用原白平衡算法，B 使用单位增益作对照，C 根据完整帧统计调整红、蓝通道。切换后至少等待 20 帧，建议约 3 秒再比较。复位恢复彩色/A；阶段演示使用 C 时需手动重新选择。曝光与白平衡均有限幅，现有方案仍有亮度和偏色限制。
+## 最终版本
 
-红色检测依据颜色、块密度和连续帧确认规则选择区域，红色背景也可能被选中，不具备物体类别识别能力。
-
-## 系统通路
-
-![从摄像头采集到 HDMI 显示，以及自动曝光反馈](docs/diagrams/video_overview.png)
-
-<details>
-<summary>流程图的可编辑源码</summary>
-
-图形来源：[生成脚本](scripts/render_doc_diagrams.py)中的 `video_overview` 定义；使用 Pillow 和固定中文字体生成。
-
-</details>
-
-自动曝光在白平衡之前统计明暗；红色检测在白平衡之后、四模式处理之前读取彩色像素，因此切换灰度等模式不会改变检测输入。检测框、文字和 Logo 在 DDR 读出后叠加，属于后续候选的功能。模块接口和时钟关系见[系统设计](docs/PROJECT_ANALYSIS.md)。
-
-|平台项目|配置|
+|项目|内容|
 |---|---|
-|开发板 / FPGA|HX1P35A / PH1P35MDG324，Speed -3|
-|摄像头|SC520CS，2 lane RAW10|
-|显示|1280 × 720，HDMI|
-|开发工具|Tang Dynasty 6.2.168116|
-|工程顶层|`design_top_wrapper`|
+|bitstream|`sc520cs_sketch3_sram_20261102.bit`，1,789,539 字节|
+|SHA-256|`A90F738A57CAC2E7DFB36A53A580AFFEFF60E7CEA4CFA3D2FEDE2BEDDF86BAFF`|
+|工具与器件|Tang Dynasty 6.2.168116，PH1P35MDG324，Speed -3|
+|资源|LUT6 17027/21216（80.3%），Slice 18310/21216（86.3%），ERAM 61/108，DSP 17/40|
+|时序|setup WNS +0.104 ns，hold WNS +0.020 ns，TNS 均为 0|
 
-## 版本与验证状态
+bitstream 包含厂商 IP，未随仓库发布；[release/final.json](release/final.json) 记录其校验值以及构建时全部 77 个输入文件的 SHA-256。
 
-各候选独立保存，便于比较和回退。`stable` 是稳定性修复候选的名称，完整稳定性验收仍未完成。
+## 验证状态
 
-|版本|主要变化|记录入口|
-|---|---|---|
-|`frame_awb`|保留的阶段演示基线：四模式、AE、A/B/C；`release/current.json` 指向此版本|[阶段基线](docs/STAGE_BASELINE.md)|
-|`logo_osd`|在阶段基线上加入官方 Logo|[Logo 报告](docs/SC520CS_LOGO_OSD_REPORT.md)|
-|`red_target`|加入红色区域框选；视频确认贴边时包围框异常扩展|[原检测报告](docs/SC520CS_RED_TARGET_REPORT.md)|
-|`red_stability`|用密度区域筛选抑制相离红区造成的联合框扩展|[修复报告](docs/SC520CS_RED_STABILITY_REPORT.md)|
-|`dark_red`|2026-10-19 暗红召回试验，仅降低最低 R 门槛；板级待测|[暗红报告](docs/SC520CS_DARK_RED_REPORT.md)|
-
-2026-10-18 的[亮度核查](docs/SC520CS_BRIGHTNESS_BASELINE_AUDIT.md)登记了 `stable` 上板反馈，现场加载 SHA-256 尚未独立核验。暗红候选 `qa/sc520cs_dark_red_trial_20261019` 的仿真和构建结果来自本地 `RELEASE_DARK_RED.md`、`dark_release_summary.json` 与 bitstream 清单，板级效果为 `not tested`，发布基线未调整。
-
-尚待完成的项目包括修复版边界检测、模式与按键逐项板测、20～30 分钟连续运行，以及 Flash 固化后脱离电脑的断电冷启动。检测坐标未绑定 DDR 帧槽，移动目标可能出现框滞后；历史无间隙 SOF 条件下的 FIFO 丢字反例仍保留。测试数据和模型限制见[验证报告](docs/QA_REPORT.md)，比赛要求见[完成表](docs/CONTEST_CHECKLIST.md)。
-
-## 文件校验与模块测试
-
-在仓库根目录执行，需 Python 3.11 或以上；仿真工具路径按本机安装位置调整。
-
-```powershell
-# 检查公开源码是否与阶段清单一致
-python scripts/verify_current.py
-
-# 运行阶段基线的模块测试；按本机安装位置调整工具路径
-python scripts/test_current.py --iverilog-bin D:/iverilog/bin --full
-
-# 仅在已有完整本地依赖时，检查依赖及选定 bit
-python scripts/verify_current.py --local
-```
-
-这些脚本对应 AWB 阶段基线，不覆盖后续候选的完整验收。完整工程入口为 `qa/sc520cs_frame_awb_trial_20261016/lab_ex1_mipi_hdmi/td_project/camera_to_dsi_display.al`；构建步骤、历史脚本绑定及复现条件见[构建与测试](docs/CURRENT_BUILD.md)。板卡版本、引脚和线缆方向仍须结合实物与原理图核对，资料中的不一致项保持待确认。
-
-```text
-HX1P35A_Image/
-├── README.md                         # 项目入口
-├── docs/                             # 设计、报告、使用与测试说明
-├── qa/sc520cs_frame_awb_trial_20261016/
-│   └── rtl/custom/                   # 公开的阶段基线自研模块
-├── sim/custom/                       # 公开模块测试
-├── scripts/                          # 文件校验与测试脚本
-└── release/                          # 版本、文件指纹与历史验证清单
-```
-
-标注“本地证据”的候选目录和日志路径用于原工作机追溯，仓库未提供其完整内容。
-
-## 文档入口
-
-|阅读目标|文档|
+|层级|结果|
 |---|---|
-|选择阅读顺序、查术语|[阅读指南](docs/READING_GUIDE.md)、[术语与指标](docs/GLOSSARY.md)|
-|了解实现与接口|[系统设计](docs/PROJECT_ANALYSIS.md)|
-|核对验证结果和比赛缺口|[验证报告](docs/QA_REPORT.md)、[比赛完成表](docs/CONTEST_CHECKLIST.md)|
-|运行检查、恢复依赖|[构建与测试](docs/CURRENT_BUILD.md)、[依赖说明](docs/DEPENDENCIES.md)|
-|执行并记录实物测试|[板级测试记录](docs/BOARD_VALIDATION.md)|
-|追溯旧文件与暂存状态|[归档与恢复](docs/CLEANUP_AND_RECOVERY.md)|
+|模块仿真|`tb/` 下 7 个自检测试全部通过，`python scripts/run_tests.py` 可复现|
+|构建|clean synthesis、place、route 各一次；时序、CDC、复位和映射审计全部通过，剩余违例 0|
+|上板（SRAM）|2026-11-02 铅笔素描模式经开发者确认；本镜像其余功能和 Flash 冷启动未逐项记录，验收步骤见 [上板测试](docs/BOARD_TEST.md)|
 
-<details>
-<summary>AWB 阶段基线文件指纹</summary>
+已知问题：启动后偶发整帧亮度闪烁，按 C7 或重新插拔 HDMI 线后恢复，根因未确定；逆光场景高光过曝；暗环境下弱边缘和红蓝目标较难检出。详见 [上板测试](docs/BOARD_TEST.md#已知问题)。
 
-`sc520cs_frame_awb.bit` 为 1,789,539 字节，未公开。该指纹仅对应 AWB 阶段基线，来源见[阶段基线](docs/STAGE_BASELINE.md)。
+## 仓库内容
 
-```text
-SHA256 794946D5664CA984C8033C62786BD026BE0DF223317D808743B6A2D367E83371
+```
+hdl/        自研 RTL（16 个文件，与最终 bitstream 所用源码逐字节一致）
+tb/         自检测试平台（7 个）
+scripts/    run_tests.py 运行全部仿真；make_logo_rom.py 由官方文件生成 Logo 数据
+docs/       设计、构建、验证和上板文档
+release/    最终版本元数据与源码校验值
 ```
 
-</details>
+完整工程还需要安路官方例程中的顶层、MIPI、DDR2、HDMI 等厂商派生文件和 IP。这些材料的再分发许可尚未确认，未放入仓库；修改内容和恢复方法见 [构建说明](docs/BUILD.md)。
+
+## 文档
+
+|文档|内容|
+|---|---|
+|[系统设计](docs/ARCHITECTURE.md)|数据通路、时钟与复位、各模块算法和接口|
+|[构建说明](docs/BUILD.md)|依赖、工程恢复、构建流程和 Logo 数据生成|
+|[验证报告](docs/VERIFICATION.md)|仿真、时序、审计结果和检查器调整|
+|[上板测试](docs/BOARD_TEST.md)|操作说明、验收清单、已有记录和已知问题|
+|[赛题对照](docs/CONTEST.md)|基础、扩展、进阶要求与实现情况|
+|[开发记录](docs/HISTORY.md)|主要问题、排查过程和方案取舍|
+
+## 快速开始
+
+```bash
+python scripts/run_tests.py
+```
+
+需要 Icarus Verilog（`iverilog`、`vvp`）和 Python 3。

@@ -2,9 +2,9 @@
   "name": "HX1P35A SC520CS real-time image processing, final submission",
   "date": "2026-11-02",
   "bitstream": {
-    "file": "sc520cs_sketch3_sram_20261102.bit",
+    "file": "sc520cs_sketch4_sram_20261102.bit",
     "bytes": 1789539,
-    "sha256": "A90F738A57CAC2E7DFB36A53A580AFFEFF60E7CEA4CFA3D2FEDE2BEDDF86BAFF",
+    "sha256": "3F61830838E738E7A88A798066EF5D2A16408F5C0DDD14151F44921CE52A9894",
     "load": "SRAM test image; write to Flash manually for cold boot",
     "distributed": false,
     "note": "contains vendor IP; kept locally"
@@ -26,9 +26,9 @@
     "Sobel"
   ],
   "resources": {
-    "lut6": 17027,
+    "lut6": 17081,
     "reg": 19968,
-    "slice": 18310,
+    "slice": 18583,
     "eram": 61,
     "dsp": 17
   },
@@ -39,7 +39,7 @@
     "dsp": 40
   },
   "timing_ns": {
-    "SWNS": 0.104,
+    "SWNS": 0.103,
     "STNS": 0.0,
     "HWNS": 0.02,
     "HTNS": 0.0
@@ -47,19 +47,19 @@
   "gray36": {
     "count": 36,
     "budget_ns": 7.2,
-    "min_slack_ns": 5.858
+    "min_slack_ns": 6.097
   },
   "remaining_violations": 0,
   "checker_changes": [
     "packed-LUT6 exemption for the exact VSYNC/S_fifo_rst INIT A=ccfccccc B=0000ffff, vendor PH1P_PHY_LSLICE proof sim_vsync_fiforst_packed 256 vectors 0 errors",
     "other new u_mode_key packed-LUT6 INITs are accepted only after an automatic vendor PH1P_PHY_LSLICE sweep (prove_packed_lut6) shows QA/QB independence",
     "review_current_i2c_clock.py follows whichever single LUT output depends on raw SCL to the same-clock O_cam_scl FF",
-    "review_implementation.py accepts CAM_I2C_FABRIC local wires 9..17 (reviewed maximum 17; 14 in the cartoon route, 15 in the first two sketch routes, 14 in this one) only with the structural review passing",
+    "review_implementation.py accepts CAM_I2C_FABRIC local wires 9..17 (reviewed maximum 17; 14 in the cartoon route, 15 in the first two sketch routes, 14 in the third, 16 in this one) only with the structural review passing",
     "baselines sc520cs_dual_indoor_trial_20261020, sc520cs_red_qualification_trial_20261020 and sof_guard_build_20261031 were removed on 2026-10-31; review_current_i2c_clock, review_implementation and freeze_check now compare with 61FD7FE0 (hdmi_resync_eram_build_20261031), which had matched those baselines exactly",
     "audit_i2c_mapping.py accepts a ready register whose D is a full LUT6 (own feedback plus counter bits) only through prove_ready_lut6: exhaustive 2^18 counter values x own state 0/1 must equal own OR counter>=threshold; four flipped-INIT negative tests were rejected"
   ],
   "board": {
-    "sram": "2026-11-02: pencil sketch mode reviewed on board and accepted by the developer; the other acceptance items in docs/BOARD_TEST.md were not recorded for this image",
+    "sram": "2026-11-02: pencil sketch mode reviewed on board with and without fill light and adopted by the developer; the other acceptance items in docs/BOARD_TEST.md were not recorded for this image",
     "flash_cold_boot": "not recorded for this image"
   },
   "sources": [
@@ -420,7 +420,7 @@
     },
     {
       "path": "project/rtl/custom/custom_processing_top.v",
-      "sha256": "C7B80E3C39548A5F9147F23E8DC71B51C22B022E3A7C1C05D68EF7B1B31B6199",
+      "sha256": "3F7F567F2DC7E80E98663C092B7DB846A952E54BCA422A023D389A21B5A13F8A",
       "published": "hdl/custom_processing_top.v"
     },
     {

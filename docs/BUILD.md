@@ -48,7 +48,7 @@ python scripts/run_tests.py processing
 最终版本使用命令行流程，综合、布局、布线各运行一次，不重复尝试种子或策略：
 
 1. **综合。** 检查 `custom_logo_rom` 的日志：应出现 `extracting RAM for identifier 'S_mem'` 和 `readmemh: reading from file 'custom_logo_rom.hex'`，资源报告中 Logo 模块应约占 19 块 ERAM。如果 Logo 仍占约 1800 个 LUT，说明 hex 文件没有找到，或者 ROM 没有推断为 ERAM。
-2. **布局、布线。** Slice 占用约 86%，正常情况下 route 在 4～6 分钟内完成。Slice 超过 95% 时，route 可能长时间不收敛，见 [开发记录](HISTORY.md#资源与布线)。
+2. **布局、布线。** Slice 占用约 87%，正常情况下 route 在 4～6 分钟内完成。Slice 超过 95% 时，route 可能长时间不收敛，见 [开发记录](HISTORY.md#资源与布线)。
 3. **时序。** setup 和 hold 的 WNS 都应不小于 0，TNS 为 0；36 条格雷码跨时钟路径的最大延迟预算为 7.2 ns。
 4. **生成 bit。** 下载到 SRAM 测试；确认无误后，再手动写入 Flash，并断电测试冷启动。
 

@@ -6,10 +6,12 @@
 module custom_processing_top #(
     parameter IMG_WIDTH = 1280,
     parameter IMG_HEIGHT = 720,
-    // Stroke = (Sobel - EDGE_CORE) << EDGE_SHIFT, floored at 0 and saturated.
-    // Coring keeps noise just above the Sobel floor faint; the gain keeps real
-    // edges dark in dim rooms.
+    // Stroke = (Sobel - core) << EDGE_SHIFT, floored at 0 and saturated, with
+    // core = EDGE_CORE + (gray >> CORE_GRAY_SHIFT). Bright areas carry more
+    // sensor noise and surface texture, so they need a higher core; the gain
+    // keeps real edges dark in dim rooms.
     parameter EDGE_CORE = 8'd40,
+    parameter CORE_GRAY_SHIFT = 2,
     parameter EDGE_SHIFT = 1,
     // Shading = (255 - gray) >> SHADE_SHIFT; larger values give a lighter wash.
     parameter SHADE_SHIFT = 1
@@ -62,7 +64,8 @@ module custom_processing_top #(
     generate
         for (l = 0; l < 4; l = l + 1) begin : g_sketch
             wire [7:0]  sob_l  = sobel_data[l*24+16 +: 8];
-            wire [7:0]  core_l = (sob_l > EDGE_CORE) ? (sob_l - EDGE_CORE) : 8'd0;
+            wire [8:0]  base_l = {1'b0, EDGE_CORE} + (gray_d2[l*24+16 +: 8] >> CORE_GRAY_SHIFT);
+            wire [7:0]  core_l = ({1'b0, sob_l} > base_l) ? (sob_l - base_l[7:0]) : 8'd0;
             wire [15:0] gain_l = {8'd0, core_l} << EDGE_SHIFT;
             wire [7:0] edge_l  = (gain_l > 16'd255) ? 8'd255 : gain_l[7:0];
             wire [7:0] shade_l = (~gray_d2[l*24+16 +: 8]) >> SHADE_SHIFT;

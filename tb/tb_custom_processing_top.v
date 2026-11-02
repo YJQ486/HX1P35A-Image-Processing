@@ -9,7 +9,7 @@ module tb_custom_processing_top;
     localparam PAT_VEDGE = 3, PAT_PULSE = 4, PAT_ASYM = 5;
     // Ramps: step 4 gives gradient 32 (below the noise floor), step 8 gives 64.
     localparam PAT_RAMP4 = 6, PAT_RAMP8 = 7;
-    localparam NOISE_FLOOR = 48, EDGE_CORE = 40, EDGE_SHIFT = 1, SHADE_SHIFT = 1;
+    localparam NOISE_FLOOR = 48, EDGE_CORE = 40, CORE_GRAY_SHIFT = 2, EDGE_SHIFT = 1, SHADE_SHIFT = 1;
     localparam [95:0] COLORS = {24'h000000,24'hffffff,24'hff0000,24'h00ff00};
     localparam [95:0] BOUNDARY = {24'h7f7f7f,24'h808080,24'h818181,24'h0000ff};
 
@@ -130,12 +130,14 @@ module tb_custom_processing_top;
         end
     endfunction
 
-    // Pencil sketch: 255 - min((sobel - core) << shift, 255) - (255 - gray) >> shade.
+    // Pencil sketch: core = EDGE_CORE + gray >> CORE_GRAY_SHIFT;
+    // 255 - min((sobel - core) << shift, 255) - (255 - gray) >> shade.
     function [7:0] ref_sketch_pixel;
         input integer sobel, gray;
-        integer stroke, ink;
+        integer stroke, ink, core;
         begin
-            stroke = (sobel > EDGE_CORE) ? (sobel - EDGE_CORE) << EDGE_SHIFT : 0;
+            core = EDGE_CORE + (gray >> CORE_GRAY_SHIFT);
+            stroke = (sobel > core) ? (sobel - core) << EDGE_SHIFT : 0;
             if (stroke > 255) stroke = 255;
             ink = stroke + ((255 - gray) >> SHADE_SHIFT);
             ref_sketch_pixel = (ink > 255) ? 8'd0 : 255 - ink;
@@ -310,8 +312,10 @@ module tb_custom_processing_top;
         check_hardcoded(ref_gray(24'h0000ff),8'h1d,"known blue");
         // Hand-computed sketch values: (sobel, gray) -> paper.
         check_hardcoded(ref_sketch_pixel(0,255),8'd255,"sketch flat white");
-        check_hardcoded(ref_sketch_pixel(48,255),8'd239,"sketch cored noise");
-        check_hardcoded(ref_sketch_pixel(100,200),8'd108,"sketch mid edge");
+        check_hardcoded(ref_sketch_pixel(48,255),8'd255,"sketch bright noise cored");
+        check_hardcoded(ref_sketch_pixel(48,0),8'd112,"sketch dark noise faint");
+        check_hardcoded(ref_sketch_pixel(100,200),8'd208,"sketch bright texture faint");
+        check_hardcoded(ref_sketch_pixel(200,200),8'd8,"sketch bright edge dark");
         check_hardcoded(ref_sketch_pixel(255,255),8'd0,"sketch strong edge");
         check_hardcoded(ref_sketch_pixel(0,0),8'd128,"sketch dark shading");
         if (IMG_WIDTH==16) begin
@@ -358,7 +362,7 @@ module tb_custom_processing_top;
         queue_beat(96'd0,1'b0,1'b0,1'b0,2'b00,8'd0,PAT_BLACK,0,0);
         @(posedge clk); #2;
         if (errors==0 && valid_checks>0 && sof_checks==18 &&
-            eol_checks==17*TEST_ROWS && hardcoded_checks>=8) begin
+            eol_checks==17*TEST_ROWS && hardcoded_checks>=10) begin
             $display("PASS: processing top width=%0d rows=%0d valid=%0d markers=%0d sof=%0d eol=%0d reset=%0d hardcoded=%0d errors=%0d",
                      IMG_WIDTH,TEST_ROWS,valid_checks,marker_checks,sof_checks,
                      eol_checks,reset_checks,hardcoded_checks,errors);

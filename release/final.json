@@ -59,8 +59,9 @@
     "audit_i2c_mapping.py accepts a ready register whose D is a full LUT6 (own feedback plus counter bits) only through prove_ready_lut6: exhaustive 2^18 counter values x own state 0/1 must equal own OR counter>=threshold; four flipped-INIT negative tests were rejected"
   ],
   "board": {
-    "sram": "2026-11-02: pencil sketch mode reviewed on board with and without fill light and adopted by the developer; the other acceptance items in docs/BOARD_TEST.md were not recorded for this image",
-    "flash_cold_boot": "not recorded for this image"
+    "sram": "2026-11-02: pencil sketch mode reviewed with and without fill light and adopted by the developer",
+    "flash_cold_boot": "2026-11-03: image written to Flash; power-button cold boot loads it and shows live video without a PC (recorded once on video)",
+    "functions": "2026-11-02/03 photos and video: four modes, Logo, status panel, AWB A/B/C, auto exposure, red and blue target detection, C7 reset all normal; 20-30 minute continuous run not recorded"
   },
   "sources": [
     {

@@ -33,7 +33,7 @@ bitstream 包含厂商 IP，未随仓库发布；[release/final.json](release/fi
 |---|---|
 |模块仿真|`tb/` 下 7 个自检测试全部通过，`python scripts/run_tests.py` 可复现|
 |构建|clean synthesis、place、route 各一次；时序、CDC、复位和映射审计全部通过，剩余违例 0|
-|上板（SRAM）|2026-11-02 铅笔素描模式在暗室和补光条件下经开发者确认；本镜像其余功能和 Flash 冷启动未逐项记录，验收步骤见 [上板测试](docs/BOARD_TEST.md)|
+|上板|最终镜像已写入 Flash，断电后按电源键冷启动正常出图（2026-11-03 录像）；四种模式、Logo、状态面板、白平衡切换、自动曝光、红蓝目标检测和 C7 复位均有实拍；20～30 分钟连续运行未记录。详见 [上板测试](docs/BOARD_TEST.md)|
 
 已知问题：启动后偶发整帧亮度闪烁，按 C7 或重新插拔 HDMI 线后恢复，根因未确定；逆光场景高光过曝；暗环境下弱边缘和红蓝目标较难检出。详见 [上板测试](docs/BOARD_TEST.md#已知问题)。
 
